@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C&G 303 Python-Powered Web Simulator</title>
+    
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #2c3e50;
+            --card-bg: #34495e;
+            --text-color: #ecf0f1;
+            --danger: #e74c3c;
+            --warning: #e67e22;
+            --success: #2ecc71;
+            --info: #3498db;
+            --mft-screen: #1abc9c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 1.2fr 0.8fr;
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+        }
+
+        .iso-card {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .status-badge {
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-unsafe {
+            background-color: var(--danger);
+            color: #fff;
+        }
+
+        .status-safe {
+            background-color: var(--success);
+            color: #2c3e50;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-iso {
+            background-color: var(--warning);
+            color: white;
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+
+        .btn-iso.active {
+            background-color: #95a5a6;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: none;
+            background-color: #2c3e50;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .btn-test {
+            width: 100%;
+            background-color: var(--success);
+            color: white;
+            padding: 15px;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .mft-display {
+            background-color: var(--mft-screen);
+            color: #2c3e50;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            border: 3px inset rgba(0,0,0,0.2);
+        }
+
+        .mft-val {
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--info);
+            color: white;
+            padding: 12px;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        .hints {
+            font-size: 0.85rem;
+            color: #bdc3c7;
+            margin-top: 20px;
+            line-height: 1.4;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>C&G Unit 303: PyScript Simulator</h1>
+
+    <div class="grid">
+        <div class="card iso-card">
+            <div>
+                <div class="card-title" style="border:none; margin:0;">Pillar 1: Safe Isolation</div>
+                <p style="margin: 5px 0 0 0; font-size:0.9rem; color:#bdc3c7;">Always verify isolation before connecting sensitive instruments.</p>
+            </div>
+            <div id="isoStatus" class="status-badge status-unsafe">Status: System Live</div>
+            <button id="isoBtn" class="btn-iso" py-click="toggle_isolation">Isolate & Lock Off</button>
+        </div>
+
+        <div class="card">
+            <div class="card-title" style="color: var(--info);">Pillar 3: Consumer Unit & MFT</div>
+            
+            <div class="form-group">
+                <label for="circuitSelect">1. Select Circuit under Test:</label>
+                <select id="circuitSelect">
+                    <option value="">-- Choose Circuit --</option>
+                    <option value="ring">Ring Final Circuit</option>
+                    <option value="radial">Radial Cooker Circuit</option>
+                    <option value="lighting">Lighting Circuit</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="testSelect">2. Select Tester Function:</label>
+                <select id="testSelect">
+                    <option value="">-- Choose Test Mode --</option>
+                    <option value="cont">Continuity (Low-Resistance Ohms)</option>
+                    <option value="ir">Insulation Resistance (IR @ 500V)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="probeSelect">3. Connect Test Probes to:</label>
+                <select id="probeSelect">
+                    <option value="L-N">Line - Neutral (L - N)</option>
+                    <option value="L-E">Line - Earth (L - CPC)</option>
+                    <option value="N-E">Neutral - Earth (N - CPC)</option>
+                </select>
+            </div>
+
+            <button class="btn-test" py-click="execute_test">PRESS TO TEST</button>
+
+            <div class="mft-display">
+                <div id="mftVal" class="mft-val">[MFT OFF]</div>
+                <div id="mftMsg">Isolate system & press test.</div>
+            </div>
+        </div>
+
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="card-title" style="color: var(--success);">Pillar 4: Diagnosis Log</div>
+                
+                <div class="form-group">
+                    <label for="diagCirc">Select Faulty Circuit:</label>
+                    <select id="diagCirc">
+                        <option value="">-- Select --</option>
+                        <option value="ring">Ring Final</option>
+                        <option value="radial">Radial Cooker</option>
+                        <option value="lighting">Lighting</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="diagType">Identify Fault Type:</label>
+                    <select id="diagType">
+                        <option value="">-- Select --</option>
+                        <option value="open">Open Circuit (Broken loop)</option>
+                        <option value="short">Low Insulation Resistance (Short)</option>
+                        <option value="high">High Resistance Joint</option>
+                    </select>
+                </div>
+
+                <button class="btn-submit" py-click="submit_diagnosis">Submit to Assessor</button>
+            </div>
+
+            <div class="hints">
+                <strong>Python Core Active</strong><br>
+                This board's state, validation logic, and diagnostic scoring are running in pure Python via WebAssembly.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="py">
+from pyscript import document, window
+
+# Global Simulator State (Python variables)
+is_isolated = False
+
+def toggle_isolation(event):
+    global is_isolated
+    
+    status_badge = document.getElementById("isoStatus")
+    iso_btn = document.getElementById("isoBtn")
+    mft_val = document.getElementById("mftVal")
+    mft_msg = document.getElementById("mftMsg")
+
+    is_isolated = not is_isolated
+
+    if is_isolated:
+        status_badge.innerText = "Status: Safe & Isolated"
+        status_badge.className = "status-badge status-safe"
+        iso_btn.innerText = "Remove Lockout"
+        iso_btn.classList.add("active")
+        mft_val.innerText = "MFT STANDBY"
+        mft_msg.innerText = "Probes connected. Ready to test."
+    else:
+        status_badge.innerText = "Status: System Live"
+        status_badge.className = "status-badge status-unsafe"
+        iso_btn.innerText = "Isolate & Lock Off"
+        iso_btn.classList.remove("active")
+        mft_val.innerText = "[MFT OFF]"
+        mft_msg.innerText = "Isolate system before testing."
+
+def execute_test(event):
+    mft_val = document.getElementById("mftVal")
+    mft_msg = document.getElementById("mftMsg")
+
+    # Safe isolation check
+    if not is_isolated:
+        window.alert("⚠️ CRITICAL SAFETY FAILURE!\nYou attempted to run a dead test on a live consumer board. You have blown the test instrument fuses and failed the assessment.")
+        mft_val.innerText = "[FUSE BLOWN]"
+        mft_msg.innerText = "System must be reset/isolated."
+        return
+
+    # Grab inputs from HTML elements using PyScript document API
+    circ = document.getElementById("circuitSelect").value
+    test = document.getElementById("testSelect").value
+    probes = document.getElementById("probeSelect").value
+
+    if not circ or not test:
+        window.alert("Please select both a circuit and a test function.")
+        return
+
+    # --- Python Fault Determination Engine ---
+    if test == "cont":  # Continuity Testing (Low Ohms)
+        if circ == "ring":
+            if probes in ["L-N", "N-E"]:
+                mft_val.innerText = "> 19.99 Ω"
+                mft_msg.innerText = "Open Circuit detected on Neutral ring."
+            else:
+                mft_val.innerText = "0.48 Ω"
+                mft_msg.innerText = "Continuity Pass (Normal Loop)"
+        
+        elif circ == "lighting":
+            if probes in ["L-E", "N-E"]:
+                mft_val.innerText = "45.50 Ω"
+                mft_msg.innerText = "Abnormally High Resistance on CPC path."
+            else:
+                mft_val.innerText = "0.25 Ω"
+                mft_msg.innerText = "Continuity Pass (Normal)"
+        
+        else:  # radial
+            mft_val.innerText = "0.12 Ω"
+            mft_msg.innerText = "Continuity Pass (Normal)"
+
+    elif test == "ir":  # Insulation Resistance (@500V DC)
+        if circ == "radial":
+            if probes == "L-E":
+                mft_val.innerText = "0.02 MΩ"
+                mft_msg.innerText = "FAIL: Critical Insulation Breakdown to Earth!"
+            else:
+                mft_val.innerText = "> 299 MΩ"
+                mft_msg.innerText = "Pass (Satisfactory)"
+        else:
+            mft_val.innerText = "> 299 MΩ"
+            mft_msg.innerText = "Pass (Satisfactory)"
+
+def submit_diagnosis(event):
+    dc = document.getElementById("diagCirc").value
+    dt = document.getElementById("diagType").value
+
+    if not dc or not dt:
+        window.alert("Please select both the faulty circuit and the fault type first.")
+        return
+
+    # Evaluate Diagnostic Log in Python
+    if dc == "radial" and dt == "short":
+        window.alert("🎉 ASSESSMENT PASSED!\n\nYou correctly identified the low Insulation Resistance (0.02 MΩ short to Earth) on the Radial Cooker circuit.")
+    elif dc == "ring" and dt == "open":
+        window.alert("🎉 ASSESSMENT PASSED!\n\nYou correctly diagnosed the Open Circuit on the Ring Final Neutral conductor.")
+    elif dc == "lighting" and dt == "high":
+        window.alert("🎉 ASSESSMENT PASSED!\n\nYou correctly pinpointed the high-resistance joint on the Lighting CPC path.")
+    else:
+        window.alert("❌ ASSESSMENT FAILED\n\nYour readings do not match your diagnosis. Review your test measurements and check your isolation status.")
+</script>
+
+</body>
+</html>
