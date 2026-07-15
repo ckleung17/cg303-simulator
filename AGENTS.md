@@ -78,6 +78,9 @@ When editing:
 5. Update both `docs/simulator-specification.md` and
    `docs/operation-manual.md` whenever behaviour visible to learners or
    maintainers changes. A feature amendment is incomplete without this update.
+6. Treat the Markdown manuals as the source of truth for agents. After changing
+   either source, run `python tools/generate_manual_pdfs.py`, render and inspect
+   the PDFs, and commit the regenerated user copies under `output/pdf/`.
 
 Before handing off:
 

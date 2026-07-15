@@ -10,6 +10,8 @@ required = [
     "css/components/simulator.css", "js/app.js",
     "data/scenarios/radial-scenarios.js", "assets/svg/app-icon.svg",
     "docs/simulator-specification.md", "docs/operation-manual.md",
+    "output/pdf/CG303-Fault-Lab-Specification.pdf",
+    "output/pdf/CG303-Fault-Lab-Operation-Manual.pdf",
 ]
 missing = [path for path in required if not (ROOT / path).is_file()]
 assert not missing, f"Missing required files: {missing}"
@@ -18,8 +20,8 @@ html = (ROOT / "index.html").read_text(encoding="utf-8")
 assert 'name="viewport"' in html
 assert 'type="module" src="js/app.js"' in html
 assert 'aria-label="Diagnostic stages"' in html
-assert 'docs/simulator-specification.md" download' in html
-assert 'docs/operation-manual.md" download' in html
+assert 'output/pdf/CG303-Fault-Lab-Specification.pdf" download' in html
+assert 'output/pdf/CG303-Fault-Lab-Operation-Manual.pdf" download' in html
 assert "data-stage=\"report\"" in html
 
 scenario_source = (ROOT / "data/scenarios/radial-scenarios.js").read_text(encoding="utf-8")

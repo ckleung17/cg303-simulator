@@ -61,6 +61,10 @@ python tests/verify_project.py
   functional, technical, assessment and platform specification.
 - [Operation manual](docs/operation-manual.md): maintained learner instructions,
   installation guidance and troubleshooting.
+
+Markdown files are the maintained source for contributors and AI agents. Users
+download the generated PDFs from the simulator. Regenerate them with
+`python tools/generate_manual_pdfs.py` after every manual amendment.
 - [Contributing](CONTRIBUTING.md): review, testing and change-management workflow.
 - [Decisions](docs/decisions/0001-typescript-browser-app.md): why TypeScript is
   the primary implementation language.

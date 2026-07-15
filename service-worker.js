@@ -1,9 +1,10 @@
-const CACHE = "cg303-fault-lab-v3";
+const CACHE = "cg303-fault-lab-v4";
 const FILES = [
   "./", "index.html", "css/tokens.css", "css/base.css", "css/layout.css",
   "css/components/simulator.css", "js/app.js",
   "data/scenarios/radial-scenarios.js", "assets/svg/app-icon.svg",
-  "docs/simulator-specification.md", "docs/operation-manual.md"
+  "output/pdf/CG303-Fault-Lab-Specification.pdf",
+  "output/pdf/CG303-Fault-Lab-Operation-Manual.pdf"
 ];
 self.addEventListener("install", event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES))));
 self.addEventListener("activate", event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key))))));
