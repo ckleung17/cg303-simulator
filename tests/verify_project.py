@@ -21,9 +21,10 @@ assert not missing, f"Missing required files: {missing}"
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 assert 'name="viewport"' in html
 assert 'type="module" src="js/app.js"' in html
-assert 'aria-label="Diagnostic stages"' in html
+assert 'class="workflow-buttons" aria-label="Diagnostic stages"' in html
 assert 'aria-labelledby="workflow-heading"' in html
-assert 'assets/svg/diagrams/simulator-workflow.svg' in html
+assert '<nav class="stage-nav"' not in html
+assert html.count('class="stage-tab') == 5
 assert 'class="manual-downloads"' in html
 assert "Independent learning aid. No City &amp; Guilds affiliation implied." in html
 assert 'output/pdf/CG303-Fault-Lab-Specification.pdf" download' in html
@@ -48,6 +49,9 @@ css = (ROOT / "css/components/simulator.css").read_text(encoding="utf-8")
 assert "@media(max-width:40rem)" in css
 assert ".terminal-button" in css
 assert "#new-scenario" in css and ".manual-downloads" in css
+for visual_effect in ["spark-sweep", "reading-pulse", "prefers-reduced-motion"]:
+    assert visual_effect in css, f"Missing visual effect: {visual_effect}"
+assert "function triggerEffect" in app
 assert "${escapeText(e.detail)} - ${e.time}" in app
 
 print("Project structure, core scenarios, workflow and responsive rules verified.")

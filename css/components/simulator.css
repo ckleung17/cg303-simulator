@@ -37,3 +37,38 @@ fieldset{margin:1.25rem 0;padding:0;border:0}legend{margin-bottom:.75rem;font-we
 @media(max-width:40rem){.header-actions{grid-template-columns:auto 1fr auto}}
 @media(max-width:40rem){#new-scenario{min-width:5.2rem;padding-inline:.6rem}.manual-downloads{gap:.85rem}}
 @media(max-width:40rem){.workflow-overview{width:100%;margin:.75rem 0;padding:1rem;border-radius:0}.workflow-overview img{min-height:8rem}}
+
+/* Electrical visual layer: decorative only; simulator behaviour remains unchanged. */
+.hero{position:relative;isolation:isolate;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background-image:linear-gradient(#73c5ff12 1px,transparent 1px),linear-gradient(90deg,#73c5ff12 1px,transparent 1px);background-size:2rem 2rem;mask-image:linear-gradient(90deg,#000,transparent 80%)}
+.hero::after{content:"";position:absolute;right:-6rem;bottom:-9rem;z-index:-1;width:22rem;height:22rem;border:1px solid #7dd3fc40;border-radius:50%;box-shadow:0 0 0 3rem #38bdf814,0 0 0 6rem #38bdf80a}
+.stage-tab.active span{box-shadow:0 0 0 .25rem #0ea5e933,0 0 1rem #38bdf899}
+.stage-view.active{animation:stage-arrive .32s ease-out}
+#new-scenario{position:relative;box-shadow:0 .35rem 1rem #075ea833}
+#new-scenario::before{content:"\26A1";margin-right:.3rem;font-size:.9em}
+#new-scenario.spark::after{content:"";position:absolute;inset:-.45rem;border-radius:.8rem;background:conic-gradient(from 45deg,transparent 0 16%,#fcd34d 17% 19%,transparent 20% 44%,#7dd3fc 45% 47%,transparent 48% 100%);animation:spark-sweep .65s ease-out;pointer-events:none}
+.terminal-button{transition:transform .18s ease,box-shadow .18s ease}
+.terminal-button.selected{transform:translateY(-2px);box-shadow:0 0 0 .2rem #fbbf2433,0 .35rem .8rem #102a4326}
+.meter{box-shadow:inset 0 0 0 1px #7dd3fc26,0 .5rem 1.3rem #102a4333}
+.meter-screen.reading-pulse{animation:meter-read .55s ease-out}
+@keyframes stage-arrive{from{opacity:0;transform:translateY(.4rem)}to{opacity:1;transform:none}}
+@keyframes spark-sweep{from{opacity:1;transform:scale(.82) rotate(-14deg)}to{opacity:0;transform:scale(1.16) rotate(12deg)}}
+@keyframes meter-read{0%{box-shadow:0 0 0 0 #7dd3fc99}45%{box-shadow:0 0 0 .35rem #7dd3fc55}100%{box-shadow:0 0 0 .65rem transparent}}
+@media(prefers-reduced-motion:reduce){.stage-view.active,.meter-screen.reading-pulse,#new-scenario.spark::after{animation:none}.terminal-button{transition:none}.stage-tab.active span,.terminal-button.selected{box-shadow:none}}
+
+/* The workflow diagram is the stage control; it replaces the former stage bar. */
+.workflow-buttons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1.9rem;padding:1.5rem 1rem;border-radius:.85rem;background:#f5f9fc}
+.workflow-buttons .stage-tab{position:relative;display:grid;justify-items:center;align-content:center;gap:.25rem;min-width:0;min-height:6.4rem;padding:.7rem .45rem;border:1px solid #adc3d6;border-radius:.65rem;background:#fff;color:#102a43;box-shadow:0 .3rem .65rem #102a4320;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background-color .16s ease}
+.workflow-buttons .stage-tab:not(:last-child)::after{content:"";position:absolute;left:calc(100% + .35rem);top:50%;width:1.2rem;height:.8rem;transform:translateY(-50%);background:#829ab1;clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%);pointer-events:none}
+.workflow-buttons .stage-tab span{width:1.7rem;height:1.7rem;margin:0;background:#e9eef3;color:#334e68}
+.workflow-buttons .stage-tab strong{font-size:.85rem;text-transform:uppercase}
+.workflow-buttons .stage-tab small{font-size:.66rem;line-height:1.35;color:#526d82;font-weight:500}
+.workflow-buttons .stage-tab:hover{transform:translateY(-.2rem);border-color:#0b79c9;background:#f5fbff;box-shadow:0 .55rem 1rem #075ea82e}
+.workflow-buttons .stage-tab:active{transform:translateY(.12rem) scale(.98);box-shadow:inset 0 .18rem .35rem #102a4326}
+.workflow-buttons .stage-tab.active{border-color:#075ea8;background:#0d2b43;color:#fff;box-shadow:0 0 0 .2rem #38bdf833,0 .55rem 1rem #102a4338}
+.workflow-buttons .stage-tab.active small{color:#d9eaf5}
+.workflow-buttons .stage-tab.done span{background:var(--colour-safe);color:#fff}
+.workflow-buttons .stage-tab:focus-visible{outline:.2rem solid #f5b82e;outline-offset:.18rem}
+@media(max-width:55rem){.workflow-buttons{grid-template-columns:repeat(5,minmax(7.5rem,1fr));gap:1.5rem;overflow-x:auto;scroll-snap-type:x proximity}.workflow-buttons .stage-tab{scroll-snap-align:start}}
+@media(max-width:40rem){.workflow-buttons{margin-inline:-1rem;padding:1rem;grid-template-columns:repeat(5,minmax(8.4rem,1fr));border-radius:0}.workflow-buttons .stage-tab{font-size:inherit}.workflow-buttons .stage-tab span{font-size:.8rem}}
+@media(prefers-reduced-motion:reduce){.workflow-buttons .stage-tab{transition:none}.workflow-buttons{scroll-behavior:auto}}

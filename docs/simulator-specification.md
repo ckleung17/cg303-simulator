@@ -95,9 +95,12 @@ and provides a reproducible scenario deep link.
 
 ## 6. Diagnostic workflow
 
-The interface presents this sequence as a responsive five-block SVG diagram with
-a concise text alternative. It remains legible on desktop and stacks with its
-introductory text at tablet and phone widths.
+The interface presents this sequence as five semantic button blocks within the
+workflow diagram. The diagram is the sole stage navigation control: the former
+duplicate navigation bar has been removed. Each button exposes visible hover,
+pressed, keyboard-focus, active-stage and completed-stage states. At narrow
+widths the touch-sized blocks scroll horizontally rather than compressing their
+labels. The PDF manual retains a static version for printed reference.
 
 1. Review the customer complaint, circuit information and previous result.
 2. Record initial information-gathering actions.
@@ -150,6 +153,10 @@ A simulator score is formative feedback and is not a qualification result.
 - Switchable/single-column layout at phone widths.
 - Centred action-button labels and separately stacked manual-download links at
   phone widths.
+- Decorative electrical-grid, active-stage, selected-terminal, new-fault and
+  meter-reading effects that do not carry essential information.
+- Automatic suppression of movement effects when the operating system or
+  browser requests reduced motion.
 
 ## 10. Technical structure
 

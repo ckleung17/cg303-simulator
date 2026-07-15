@@ -38,12 +38,14 @@ function newScenario(seed=makeSeed()){
   renderSafety(); renderTerminals(); renderMeterOptions(); renderChoices(); renderReadings(); renderEvidence();
   $("#test-feedback").textContent=""; $("#diagnosis-feedback").textContent=""; $("#reasoning").value="";
   showStage("brief"); logEvent("Scenario opened",`Seed ${seed} - ${state.fault.componentFaults.length} hidden fault${state.fault.componentFaults.length===1?"":"s"}`);
+  triggerEffect($("#new-scenario"),"spark",650);
 }
 
 function showStage(name){
   state.stage=name; $$(".stage-view").forEach(el=>el.classList.toggle("active",el.id===`stage-${name}`));
-  $$(".stage-tab").forEach(el=>{ const stages=["brief","safety","test","diagnose","report"]; const pos=stages.indexOf(el.dataset.stage); const current=stages.indexOf(name); el.classList.toggle("active",pos===current); el.classList.toggle("done",pos<current); });
-  window.scrollTo({top:document.querySelector(".stage-nav")?.getBoundingClientRect().top+window.scrollY-8,behavior:"smooth"});
+  $$(".stage-tab").forEach(el=>{ const stages=["brief","safety","test","diagnose","report"]; const pos=stages.indexOf(el.dataset.stage); const current=stages.indexOf(name); el.classList.toggle("active",pos===current); el.classList.toggle("done",pos<current); if(pos===current)el.setAttribute("aria-current","step");else el.removeAttribute("aria-current"); });
+  const workflow=document.querySelector(".workflow-overview");
+  if(workflow)window.scrollTo({top:workflow.getBoundingClientRect().bottom+window.scrollY-8,behavior:"smooth"});
 }
 
 function renderSafety(){
@@ -91,6 +93,7 @@ function takeReading(){
   if(state.safetyIndex!==safetySteps.length){ state.safetyErrors++; setFeedback(feedback,"Testing is blocked: complete safe isolation first.",false); return; }
   const [a,b]=state.leads, result=state.fault.measure(testId,a,b); const record={test:test.name,a,b,...result}; state.readings.push(record);
   $("#meter-reading").textContent=result.value; $("#meter-unit").textContent=result.unit; renderReadings();
+  triggerEffect($(".meter-screen"),"reading-pulse",550);
   const helpful=state.fault.keyTests.includes(`${testId}:${a}:${b}`)||state.fault.keyTests.includes(`${testId}:${b}:${a}`);
   const message=state.mode==="guided"?result.evidence:(helpful?"Reading recorded. Consider what this establishes.":"Reading recorded.");
   setFeedback(feedback,message,true); logEvent(`${test.name}: ${result.value} ${result.unit}`,`${terminalName(a)} ? ${terminalName(b)}`); state.leads=[]; updateLeads();
@@ -130,6 +133,7 @@ function finishAttempt(){
 function logEvent(title,detail=""){ state.evidence.push({title,detail,time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}); renderEvidence(); }
 function renderEvidence(){ const list=$("#evidence-log"); $("#evidence-count").textContent=String(state.evidence.length); list.innerHTML=state.evidence.length?state.evidence.map(e=>`<li><strong>${escapeText(e.title)}</strong><small>${escapeText(e.detail)} - ${e.time}</small></li>`).join(""):'<li class="empty">Your actions and readings will appear here.</li>'; }
 function setFeedback(el,message,good){el.textContent=message;el.className=`feedback ${good?"good":"bad"}`;}
+function triggerEffect(element,className,duration){if(!element||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;element.classList.remove(className);void element.offsetWidth;element.classList.add(className);window.setTimeout(()=>element.classList.remove(className),duration);}
 function escapeText(value){const d=document.createElement("div");d.textContent=String(value);return d.innerHTML;}
 function saveAttempt(score,correct){try{const history=JSON.parse(localStorage.getItem("cg303-attempts")||"[]");history.unshift({seed:state.seed,score,correct,date:new Date().toISOString()});localStorage.setItem("cg303-attempts",JSON.stringify(history.slice(0,20)));}catch{ /* local storage is optional */ }}
 

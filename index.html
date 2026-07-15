@@ -45,17 +45,14 @@
 
     <section class="workflow-overview" aria-labelledby="workflow-heading">
       <div class="workflow-copy"><p class="eyebrow">Diagnostic process</p><h2 id="workflow-heading">From symptoms to an evidence-led report</h2><p>Follow the stages in order. Combined-fault scenarios may require more than one hypothesis-test-diagnosis loop before reporting.</p></div>
-      <img src="assets/svg/diagrams/simulator-workflow.svg" alt="Workflow: review the brief, isolate safely, test the circuit, diagnose every fault, then review the report.">
-      <ol class="sr-only"><li>Review symptoms and documents and form hypotheses.</li><li>Complete safe isolation and prove dead.</li><li>Select instruments and collect test evidence.</li><li>Diagnose every supported fault and recommend action.</li><li>Review the report, repeat the seed or generate a new scenario.</li></ol>
+      <nav class="workflow-buttons" aria-label="Diagnostic stages">
+        <button class="stage-tab active" data-stage="brief" type="button" aria-current="step"><span>1</span><strong>Brief</strong><small>Symptoms and records<br>Form hypotheses</small></button>
+        <button class="stage-tab" data-stage="safety" type="button"><span>2</span><strong>Safety</strong><small>Identify and isolate<br>Prove dead - re-prove</small></button>
+        <button class="stage-tab" data-stage="test" type="button"><span>3</span><strong>Test</strong><small>Select instrument<br>Collect evidence</small></button>
+        <button class="stage-tab" data-stage="diagnose" type="button"><span>4</span><strong>Diagnose</strong><small>Identify every fault<br>Recommend action</small></button>
+        <button class="stage-tab" data-stage="report" type="button"><span>5</span><strong>Report</strong><small>Review score and gaps<br>Repeat or start again</small></button>
+      </nav>
     </section>
-
-    <nav class="stage-nav" aria-label="Diagnostic stages">
-      <button class="stage-tab active" data-stage="brief" type="button"><span>1</span> Brief</button>
-      <button class="stage-tab" data-stage="safety" type="button"><span>2</span> Safety</button>
-      <button class="stage-tab" data-stage="test" type="button"><span>3</span> Test</button>
-      <button class="stage-tab" data-stage="diagnose" type="button"><span>4</span> Diagnose</button>
-      <button class="stage-tab" data-stage="report" type="button"><span>5</span> Report</button>
-    </nav>
 
     <div class="workspace">
       <section class="panel work-panel">
