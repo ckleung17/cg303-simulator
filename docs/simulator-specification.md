@@ -97,13 +97,19 @@ and provides a reproducible scenario deep link.
 
 The interface presents this sequence as five semantic button blocks within the
 workflow diagram. Each button combines a related original SVG image (document,
-padlock, test meter, fault magnifier or report clipboard), a numbered image
-badge, a stage label directly beneath the image and concise supporting text. The diagram is the sole stage
+padlock, test meter, fault magnifier or report clipboard), a small numbered
+corner badge, a translucent circular image background, a stage label directly
+beneath the enlarged image and concise supporting text. The diagram is the sole stage
 navigation control: the former duplicate navigation bar has been removed. Each
 button exposes visible hover, pressed, keyboard-focus, active-stage and
 completed-stage states. At narrow widths the touch-sized blocks scroll
-horizontally without hiding or compressing their labels. The PDF manual retains
-a static version for printed reference.
+horizontally without hiding or compressing their labels. At phone widths, each
+button separates into a responsive square image pad and text below it: the SVG
+fills the pad translucently, the number overlays the top of the image, and the
+stage name plus supporting text remain outside and beneath the square. All five
+buttons use equal columns and fit within a 320px screen without horizontal
+scrolling; connector arrows are hidden at this breakpoint. The PDF manual
+retains a static version for printed reference.
 
 1. Review the customer complaint, circuit information and previous result.
 2. Record initial information-gathering actions.

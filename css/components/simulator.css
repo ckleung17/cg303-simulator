@@ -74,15 +74,47 @@ fieldset{margin:1.25rem 0;padding:0;border:0}legend{margin-bottom:.75rem;font-we
 @media(prefers-reduced-motion:reduce){.workflow-buttons .stage-tab{transition:none}.workflow-buttons{scroll-behavior:auto}}
 
 /* Illustrated workflow symbols with numbered image badges. */
-.workflow-buttons .stage-tab{min-height:8.2rem}
-.workflow-buttons .stage-icon{position:relative;display:block;width:3.65rem;height:3.65rem;margin:0;background:transparent;border-radius:0;transition:transform .16s ease,filter .16s ease}
-.workflow-buttons .stage-icon img{display:block;width:100%;height:100%;object-fit:contain}
-.workflow-buttons .stage-number{position:absolute;right:-.3rem;bottom:-.15rem;display:grid;place-items:center;width:1.45rem;height:1.45rem;margin:0;border:2px solid #fff;border-radius:50%;background:#075ea8;color:#fff;font-size:.72rem;font-weight:800;box-shadow:0 .15rem .35rem #102a4340}
+.workflow-buttons .stage-tab{min-height:9.25rem}
+.workflow-buttons .stage-tab .stage-icon{position:relative;display:block;width:4.6rem;height:4.6rem;margin:0;padding:.38rem;background:#dff2ff99;border:1px solid #7dd3fc66;border-radius:50%;box-sizing:border-box;transition:transform .16s ease,filter .16s ease}
+.workflow-buttons .stage-icon::before{content:"";position:absolute;inset:.25rem;border-radius:50%;background:#ffffff73;box-shadow:inset 0 0 1rem #38bdf826}
+.workflow-buttons .stage-icon img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;opacity:.92}
+.workflow-buttons .stage-tab .stage-number{position:absolute;z-index:2;right:-.22rem;top:-.22rem;bottom:auto;display:grid;place-items:center;width:1.35rem;height:1.35rem;margin:0;border:2px solid #fff;border-radius:50%;background:#075ea8de;color:#fff;font-size:.68rem;font-weight:800;box-shadow:0 .15rem .35rem #102a4340}
 .workflow-buttons .stage-tab:hover .stage-icon{transform:scale(1.08) rotate(-2deg);filter:drop-shadow(0 .25rem .3rem #075ea833)}
 .workflow-buttons .stage-tab:active .stage-icon{transform:scale(.94)}
-.workflow-buttons .stage-tab.active .stage-icon{background:transparent;box-shadow:none;filter:drop-shadow(0 0 .45rem #7dd3fc99)}
-.workflow-buttons .stage-tab.active .stage-number{background:#f5b82e;color:#102a43}
-.workflow-buttons .stage-tab.done .stage-icon{background:transparent;color:inherit}
-.workflow-buttons .stage-tab.done .stage-number{background:var(--colour-safe);color:#fff}
-@media(max-width:40rem){.workflow-buttons .stage-tab{font-size:1rem;min-height:8.2rem}.workflow-buttons .stage-icon{width:3.65rem;height:3.65rem}.workflow-buttons .stage-number{font-size:.72rem}}
+.workflow-buttons .stage-tab.active .stage-icon{background:#dff2ffb8;box-shadow:none;filter:drop-shadow(0 0 .55rem #7dd3fccc)}
+.workflow-buttons .stage-tab.active .stage-number{background:#f5b82ee8;color:#102a43}
+.workflow-buttons .stage-tab.done .stage-icon{background:#e3f9e5a8;color:inherit}
+.workflow-buttons .stage-tab.done .stage-number{background:#23864be8;color:#fff}
+@media(max-width:40rem){.workflow-buttons .stage-tab{font-size:1rem;min-height:9.25rem}.workflow-buttons .stage-tab .stage-icon{width:4.6rem;height:4.6rem}.workflow-buttons .stage-tab .stage-number{font-size:.68rem}}
 @media(prefers-reduced-motion:reduce){.workflow-buttons .stage-icon{transition:none}.workflow-buttons .stage-tab:hover .stage-icon,.workflow-buttons .stage-tab:active .stage-icon{transform:none}}
+
+/* Mobile: the square image pad is separate from all text below it. */
+@media(max-width:40rem){
+  .workflow-buttons{grid-template-columns:repeat(5,minmax(10.5rem,1fr));gap:1.25rem;padding-block:1rem}
+  .workflow-buttons .stage-tab,.workflow-buttons .stage-tab.active{align-content:start;gap:.35rem;min-height:14rem;padding:0 .35rem;border:0;background:transparent;color:#102a43;box-shadow:none}
+  .workflow-buttons .stage-tab:hover{border:0;background:transparent;box-shadow:none}
+  .workflow-buttons .stage-tab:active{box-shadow:none}
+  .workflow-buttons .stage-tab .stage-icon{width:9rem;height:9rem;padding:0;border:1px solid #7db0d3;border-radius:.8rem;background:#dff2ff99;box-shadow:0 .35rem .8rem #102a4326;overflow:hidden}
+  .workflow-buttons .stage-icon::before{inset:0;border-radius:.75rem;background:linear-gradient(145deg,#ffffff80,#7dd3fc24);box-shadow:inset 0 0 1.4rem #075ea81f}
+  .workflow-buttons .stage-icon img{width:100%;height:100%;padding:.55rem;box-sizing:border-box;opacity:.6}
+  .workflow-buttons .stage-tab .stage-number{left:50%;right:auto;top:.55rem;width:1.65rem;height:1.65rem;transform:translateX(-50%);background:#075ea8e6;font-size:.78rem}
+  .workflow-buttons .stage-tab strong{margin-top:.15rem;font-size:.92rem;color:#102a43}
+  .workflow-buttons .stage-tab small{font-size:.72rem;line-height:1.35;color:#526d82}
+  .workflow-buttons .stage-tab.active .stage-icon{border-color:#38bdf8;background:#0d2b43d9;box-shadow:0 0 0 .2rem #38bdf83d,0 .45rem 1rem #102a4340;filter:none}
+  .workflow-buttons .stage-tab.active .stage-icon img{opacity:.72}
+  .workflow-buttons .stage-tab.active small{color:#526d82}
+  .workflow-buttons .stage-tab:not(:last-child)::after{top:4.5rem}
+}
+
+/* Compact phone row: all five stages remain visible without horizontal scroll. */
+@media(max-width:40rem){
+  .workflow-buttons{grid-template-columns:repeat(5,minmax(0,1fr));gap:.12rem;padding:.75rem .3rem;overflow:visible;scroll-snap-type:none}
+  .workflow-buttons .stage-tab,.workflow-buttons .stage-tab.active{gap:.22rem;min-width:0;min-height:10.75rem;padding:0 .08rem}
+  .workflow-buttons .stage-tab .stage-icon{width:clamp(3.1rem,15.5vw,4rem);height:clamp(3.1rem,15.5vw,4rem);border-radius:.55rem}
+  .workflow-buttons .stage-icon::before{border-radius:.5rem}
+  .workflow-buttons .stage-icon img{padding:.22rem}
+  .workflow-buttons .stage-tab .stage-number{top:.25rem;width:1.25rem;height:1.25rem;font-size:.68rem}
+  .workflow-buttons .stage-tab strong{max-width:100%;font-size:.68rem;line-height:1.15;overflow-wrap:anywhere}
+  .workflow-buttons .stage-tab small{max-width:100%;font-size:.68rem;line-height:1.2;overflow-wrap:anywhere}
+  .workflow-buttons .stage-tab:not(:last-child)::after{display:none}
+}

@@ -50,10 +50,15 @@ connection. Browser-specific installation wording varies.
 The start page shows five illustrated workflow buttons. The document, padlock,
 test meter, fault magnifier and report clipboard images identify **Brief**,
 **Safety**, **Test**, **Diagnosis** and **Report**. A numbered badge is overlaid
-on every image to preserve the required sequence. Select a button to open that
-working stage. The button and image respond when hovered or pressed, the current
-stage glows and completed stages receive a green number badge. On a narrow phone
-screen, swipe the workflow row sideways to reach every stage.
+at the top-right of every enlarged image to preserve the required sequence
+without obscuring the symbol. Each image uses a soft translucent circular
+background. Select a button to open that working stage. The button and image
+respond when hovered or pressed, the current stage glows and completed stages
+receive a green number badge. On a narrow phone screen, each illustration
+expands into a large square pad with a translucent full-pad image and the number
+centred over its upper edge. The stage name and supporting text sit beneath the
+square. All five compact stages fit across the phone screen without sideways
+scrolling; arrows are omitted at this width to preserve readable space.
 
 Use the Mode selector at the top of the page:
 
