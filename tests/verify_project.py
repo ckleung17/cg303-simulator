@@ -62,7 +62,7 @@ assert "function triggerEffect" in app
 assert "function renderOutcomeScene" in app
 for circuit_scene in ["radial:[", "ring:[", "lighting:[", "dedicated:[", "control:[", "threephase:["]:
     assert circuit_scene in app, f"Missing circuit outcome scene: {circuit_scene}"
-for animation_rule in ["hazard-flash", "blackout", "meal-ready", "motor-spin", "translateY(-.38rem)"]:
+for animation_rule in ["hazard-flash", "blackout", "meal-ready", "motor-spin", "translateY(-.72rem)"]:
     assert animation_rule in css, f"Missing outcome animation: {animation_rule}"
 assert "${escapeText(e.detail)} - ${e.time}" in app
 

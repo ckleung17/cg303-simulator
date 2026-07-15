@@ -57,7 +57,7 @@ respond when hovered or pressed, the current stage glows and completed stages
 receive a green number badge. On a narrow phone screen, each illustration
 expands into a large square pad with a translucent full-pad image and the number
 centred over its upper edge. The stage name and supporting text sit beneath the
-square. The image is enlarged and shifted close to the pad's upper edge, while
+square. The image is enlarged and positioned near the pad's upper inset, while
 the overlaid number badge is partially transparent. All five compact stages fit
 across the phone screen without sideways scrolling. Small arrows between pads
 preserve the direction of flow, and the supporting description is smaller than

@@ -164,4 +164,4 @@ body.action-correct::after{animation:restore-flash .52s ease-out;background:radi
 @media(max-width:40rem){.outcome-scene{grid-template-columns:1fr}.scene-canvas{min-height:8rem}}
 @media(prefers-reduced-motion:reduce){body.action-wrong::after,body.action-correct::after,.scene-success *,.scene-failure *{animation:none!important}.scene-failure .scene-blackout{opacity:.68}.scene-failure .scene-bolt{opacity:1}.scene-success .scene-oven b{opacity:1}}
 
-@media(max-width:40rem){.workflow-buttons .stage-icon img{transform:translateY(-.38rem) scale(1.12)}}
+@media(max-width:40rem){.workflow-buttons .stage-icon img{transform:translateY(-.72rem) scale(1.12)}}
