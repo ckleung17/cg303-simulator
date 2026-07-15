@@ -31,8 +31,8 @@
 
   <main id="main-content">
     <section class="hero">
-      <div><p class="eyebrow">City &amp; Guilds 2365-03 ? Unit 303 practice</p><h1>Diagnose the fault. Prove your reasoning.</h1>
-      <p>Work through an original, randomly selected radial-circuit fault using safe isolation, suitable instruments and evidence-led diagnosis.</p></div>
+      <div><p class="eyebrow">City &amp; Guilds 2365-03 Unit 303 practice</p><h1>Diagnose the fault. Prove your reasoning.</h1>
+      <p>Work through original, randomly selected radial, ring, lighting, dedicated-load, control and three-phase faults using safe isolation and evidence-led diagnosis.</p></div>
       <div class="scenario-id"><span>Scenario seed</span><strong id="seed-display">?</strong></div>
     </section>
 
@@ -47,9 +47,9 @@
     <div class="workspace">
       <section class="panel work-panel">
         <div id="stage-brief" class="stage-view active">
-          <div class="section-heading"><div><p class="eyebrow">Job information</p><h2>Customer brief</h2></div><span class="status-chip">Single-phase radial</span></div>
+          <div class="section-heading"><div><p class="eyebrow">Job information</p><h2>Customer brief</h2></div><span id="circuit-chip" class="status-chip">Circuit</span></div>
           <blockquote id="complaint" class="complaint"></blockquote>
-          <dl class="facts"><div><dt>Supply</dt><dd>230 V AC, TN-C-S</dd></div><div><dt>Protection</dt><dd>B20 RCBO, 30 mA</dd></div><div><dt>Conductors</dt><dd>2.5/1.5 mm? T&amp;E</dd></div><div><dt>Last result</dt><dd>R1+R2 0.41 ?</dd></div></dl>
+          <dl class="facts"><div><dt>Supply</dt><dd id="fact-supply"></dd></div><div><dt>Protection</dt><dd id="fact-protection"></dd></div><div><dt>Conductors</dt><dd id="fact-conductors"></dd></div><div><dt>Last result</dt><dd id="fact-result"></dd></div></dl>
           <fieldset><legend>Initial observations</legend><label class="check-row"><input type="checkbox" data-observation="complaint"> Confirm the reported symptoms with the customer</label><label class="check-row"><input type="checkbox" data-observation="documents"> Review the circuit schedule and previous results</label><label class="check-row"><input type="checkbox" data-observation="visual"> Carry out a visual inspection before testing</label></fieldset>
           <button class="button button-primary next-stage" data-next="safety" type="button">Continue to safety</button>
         </div>
@@ -68,12 +68,12 @@
             <div class="circuit-card">
               <svg class="circuit" viewBox="0 0 760 290" role="img" aria-labelledby="circuit-title circuit-desc">
                 <title id="circuit-title">Single-phase radial socket circuit</title><desc id="circuit-desc">Consumer unit feeding two socket outlets with labelled line, neutral and CPC test terminals.</desc>
-                <g class="wires line"><path d="M120 72 H650"/></g><g class="wires neutral"><path d="M120 142 H650"/></g><g class="wires cpc"><path d="M120 212 H650"/></g>
-                <g class="board"><rect x="28" y="36" width="94" height="214" rx="8"/><text x="75" y="62">DB1</text><text x="75" y="91">B20</text><text x="75" y="108">RCBO</text></g>
-                <g class="accessory"><rect x="290" y="42" width="110" height="210" rx="8"/><text x="345" y="269">SO1</text></g>
-                <g class="accessory"><rect x="595" y="42" width="110" height="210" rx="8"/><text x="650" y="269">SO2</text></g>
+                <g id="path-a" class="wires line"><path d="M120 72 H650"/></g><g id="path-b" class="wires neutral"><path d="M120 142 H650"/></g><g id="path-c" class="wires cpc"><path d="M120 212 H650"/></g>
+                <g class="board"><rect x="28" y="36" width="94" height="214" rx="8"/><text id="device-a" x="75" y="62">Supply</text></g>
+                <g class="accessory"><rect x="290" y="42" width="110" height="210" rx="8"/><text id="device-b" x="345" y="269">Device</text></g>
+                <g class="accessory"><rect x="595" y="42" width="110" height="210" rx="8"/><text id="device-c" x="650" y="269">Load</text></g>
                 <g id="terminal-markers"></g>
-                <text class="wire-label" x="142" y="64">Line</text><text class="wire-label" x="142" y="134">Neutral</text><text class="wire-label" x="142" y="204">CPC</text>
+                <text id="wire-a" class="wire-label" x="142" y="64">Line</text><text id="wire-b" class="wire-label" x="142" y="134">Neutral</text><text id="wire-c" class="wire-label" x="142" y="204">CPC</text>
               </svg>
               <p class="diagram-help">Select two labelled terminals below. This is the touch and keyboard alternative to dragging test leads.</p>
               <div id="terminal-buttons" class="terminal-grid" aria-label="Circuit test terminals"></div>

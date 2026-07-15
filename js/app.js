@@ -1,5 +1,5 @@
 // @ts-check
-import { faults, instruments, terminals, tests } from "../data/scenarios/radial-scenarios.js";
+import { faults, instruments, tests } from "../data/scenarios/radial-scenarios.js";
 
 const safetySteps = [
   "Obtain permission, identify the circuit and inform affected persons",
@@ -25,7 +25,9 @@ function seededIndex(seed){ return parseInt(seed,16)%faults.length; }
 function newScenario(seed=makeSeed()){
   state.seed=seed; state.fault=faults[seededIndex(seed)]; state.stage="brief"; state.safetyIndex=0; state.safetyErrors=0;
   state.observations.clear(); state.leads=[]; state.readings=[]; state.evidence=[]; state.diagnosis=null; state.reasoning=""; state.action=null;
-  $("#seed-display").textContent=seed; $("#complaint").textContent=`?${state.fault.complaint}?`;
+  $("#seed-display").textContent=seed; $("#complaint").textContent=`"${state.fault.complaint}"`;
+  $("#circuit-chip").textContent=state.fault.circuit; $("#fact-supply").textContent=state.fault.supply;
+  $("#fact-protection").textContent=state.fault.protection; $("#fact-conductors").textContent=state.fault.conductors; $("#fact-result").textContent=state.fault.lastResult;
   $$("[data-observation]").forEach(el=>{ if(el instanceof HTMLInputElement) el.checked=false; });
   renderSafety(); renderTerminals(); renderMeterOptions(); renderChoices(); renderReadings(); renderEvidence();
   $("#test-feedback").textContent=""; $("#diagnosis-feedback").textContent=""; $("#reasoning").value="";
@@ -48,6 +50,20 @@ function renderSafety(){
 
 function renderTerminals(){
   const buttons=$("#terminal-buttons"), markers=$("#terminal-markers"); buttons.innerHTML=""; markers.innerHTML="";
+  const terminals=state.fault.terminals;
+  ["#device-a","#device-b","#device-c"].forEach((id,i)=>$(id).textContent=state.fault.diagram[i]); ["#wire-a","#wire-b","#wire-c"].forEach((id,i)=>$(id).textContent=state.fault.wires[i]);
+  const paths={
+    radial:["M120 72 H650","M120 142 H650","M120 212 H650"],
+    ring:["M120 72 H650 Q710 72 710 112 Q710 152 650 152 H120","M120 142 H620 Q680 142 680 182 Q680 222 620 222 H120","M120 212 H580 Q640 212 640 252 Q640 278 580 278 H120"],
+    lighting:["M120 72 H345 V112 H520","M345 142 H500 V72 H650","M120 212 H650"],
+    dedicated:["M120 72 H650","M120 142 H650","M120 212 H650"],
+    control:["M120 72 H300 V112 H420 V72 H650","M120 142 H345 V182 H520 V142 H650","M120 212 H650"],
+    threephase:["M120 72 H650","M120 142 H650","M120 212 H650"]
+  }[state.fault.type];
+  ["#path-a path","#path-b path","#path-c path"].forEach((id,i)=>$(id).setAttribute("d",paths[i]));
+  if(state.fault.type==="threephase"){ $("#path-b").className.baseVal="wires phase-two"; $("#path-c").className.baseVal="wires phase-three"; }
+  else { $("#path-b").className.baseVal="wires neutral"; $("#path-c").className.baseVal="wires cpc"; }
+  $("#circuit-title").textContent=state.fault.circuit; $("#circuit-desc").textContent=`Interactive ${state.fault.circuit} with labelled test terminals.`;
   terminals.forEach(t=>{ const button=document.createElement("button"); button.type="button"; button.className="terminal-button"; button.dataset.terminal=t.id; button.textContent=t.label; buttons.append(button);
     const ns="http://www.w3.org/2000/svg"; const circle=document.createElementNS(ns,"circle"); circle.setAttribute("cx",String(t.x));circle.setAttribute("cy",String(t.y));circle.setAttribute("r","10");circle.setAttribute("class","terminal"); markers.append(circle);
     const label=document.createElementNS(ns,"text");label.setAttribute("x",String(t.x+12));label.setAttribute("y",String(t.y-9));label.setAttribute("class","terminal-label");label.textContent=t.id.toUpperCase();markers.append(label);
@@ -60,7 +76,7 @@ function renderMeterOptions(){
 }
 function syncTestOptions(){ const instrument=$("#instrument-select").value; const allowed=tests.filter(t=>t.instrument===instrument); $("#test-select").innerHTML=allowed.map(t=>`<option value="${t.id}">${t.name}</option>`).join(""); }
 function updateLeads(){ $("#lead-a").textContent=terminalName(state.leads[0]); $("#lead-b").textContent=terminalName(state.leads[1]); $$(".terminal-button").forEach(el=>el.classList.toggle("selected",state.leads.includes(el.dataset.terminal))); }
-function terminalName(id){ return terminals.find(t=>t.id===id)?.label||"not set"; }
+function terminalName(id){ return state.fault.terminals.find(t=>t.id===id)?.label||"not set"; }
 
 function takeReading(){
   const testId=$("#test-select").value, instrument=$("#instrument-select").value, feedback=$("#test-feedback");

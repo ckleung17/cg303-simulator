@@ -20,9 +20,10 @@ assert 'aria-label="Diagnostic stages"' in html
 assert "data-stage=\"report\"" in html
 
 scenario_source = (ROOT / "data/scenarios/radial-scenarios.js").read_text(encoding="utf-8")
-fault_ids = re.findall(r'id: "(open-neutral-so2|open-cpc-so2|low-ir-ln|reversed-polarity-so2)"', scenario_source)
-assert len(set(fault_ids)) == 4, "Expected four unique initial faults"
-assert scenario_source.count("measure(test, a, b)") == 4
+fault_ids = re.findall(r'make\("[a-z]+","([a-z0-9-]+)"', scenario_source)
+assert len(set(fault_ids)) >= 13, "Expected at least thirteen unique faults"
+for circuit_type in ["radial", "ring", "lighting", "dedicated", "control", "threephase"]:
+    assert f'{circuit_type}:' in scenario_source, f"Missing {circuit_type} circuit catalogue"
 
 app = (ROOT / "js/app.js").read_text(encoding="utf-8")
 for workflow in ["renderSafety", "takeReading", "submitDiagnosis", "finishAttempt"]:

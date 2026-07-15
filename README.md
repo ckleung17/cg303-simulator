@@ -10,7 +10,8 @@ supervised practical training or workplace competence.
 
 ## Project status
 
-Working first release. The simulator provides four seeded radial-circuit fault
+Working multi-circuit release. The simulator provides seeded radial, ring-final,
+lighting, dedicated cooker/shower, contactor-control and three-phase motor fault
 scenarios, safe-isolation sequencing, calculated instrument readings, diagnosis
 and correction choices, curriculum-mapped scoring, local attempt history and an
 offline-capable mobile interface. It uses separate semantic HTML, modular CSS,
@@ -60,9 +61,18 @@ python tests/verify_project.py
 - [Decisions](docs/decisions/0001-typescript-browser-app.md): why TypeScript is
   the primary implementation language.
 
-## Implemented first milestone
+## Implemented circuit catalogue
 
-The current release provides a complete single-phase radial-circuit workflow:
+The current release provides a complete diagnostic workflow across:
+
+- Radial socket circuits.
+- Ring-final circuits.
+- One- and two-way lighting circuits.
+- Dedicated cooker and shower radials.
+- Contactor, start/stop and holding-contact control circuits.
+- Three-phase motor and distribution circuits.
+
+Each generated scenario includes:
 
 1. A customer complaint and circuit documentation.
 2. Safe isolation using a voltage indicator and proving unit.
