@@ -56,7 +56,7 @@ css = (ROOT / "css/components/simulator.css").read_text(encoding="utf-8")
 assert "@media(max-width:40rem)" in css
 assert ".terminal-button" in css
 assert "#new-scenario" in css and ".manual-downloads" in css
-for visual_effect in ["spark-sweep", "reading-pulse", "prefers-reduced-motion", "#dff2ff99", "repeat(5,minmax(0,1fr))", "15.5vw"]:
+for visual_effect in ["spark-sweep", "reading-pulse", "prefers-reduced-motion", "#dff2ff99", "repeat(5,minmax(0,1fr))", "15.5vw", "opacity:.78", "right:-.34rem"]:
     assert visual_effect in css, f"Missing visual effect: {visual_effect}"
 assert "function triggerEffect" in app
 assert "${escapeText(e.detail)} - ${e.time}" in app

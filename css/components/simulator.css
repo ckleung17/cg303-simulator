@@ -118,3 +118,11 @@ fieldset{margin:1.25rem 0;padding:0;border:0}legend{margin-bottom:.75rem;font-we
   .workflow-buttons .stage-tab small{max-width:100%;font-size:.68rem;line-height:1.2;overflow-wrap:anywhere}
   .workflow-buttons .stage-tab:not(:last-child)::after{display:none}
 }
+
+/* Fine-tuned compact workflow spacing and flow cues for phones. */
+@media(max-width:40rem){
+  .workflow-buttons .stage-icon img{padding:.08rem .12rem .28rem;transform:translateY(-.16rem) scale(1.1);transform-origin:center top}
+  .workflow-buttons .stage-tab .stage-number{top:.12rem;opacity:.78}
+  .workflow-buttons .stage-tab small{font-size:.61rem;line-height:1.18}
+  .workflow-buttons .stage-tab:not(:last-child)::after{display:block;left:auto;right:-.34rem;top:clamp(1.55rem,7.75vw,2rem);width:.58rem;height:.42rem;background:#6f8da6b8;z-index:4}
+}
