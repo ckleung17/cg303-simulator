@@ -1,10 +1,16 @@
-# CG303 Fault Lab ? Operation Manual
+# CG303 Fault Lab - Operation Manual
 
-Manual version: 1.2
+Manual version: 1.3
 
 Applies to simulator baseline: commit `3f110c5`
 
 Last updated: 15 July 2026
+
+## Workflow at a glance
+
+Start with this complete process before following the detailed instructions.
+
+![CG303 Fault Lab workflow: Brief, Safety, Test, Diagnose and Report](../assets/svg/diagrams/simulator-workflow.svg)
 
 ## 1. Important notice
 
@@ -41,11 +47,8 @@ connection. Browser-specific installation wording varies.
 
 ## 3. Selecting a learning mode
 
-The start page includes a five-block workflow diagram: **Brief**, **Safety**,
-**Test**, **Diagnose** and **Report**. Use it as an overview of the complete
-process; the numbered navigation immediately below opens each working stage.
-
-![CG303 Fault Lab workflow: Brief, Safety, Test, Diagnose and Report](../assets/svg/diagrams/simulator-workflow.svg)
+The start page repeats the five-stage overview. The numbered navigation opens
+each working stage.
 
 Use the Mode selector at the top of the page:
 
