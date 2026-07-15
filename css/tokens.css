@@ -1,0 +1,16 @@
+:root {
+  --colour-canvas: #f4f6f8;
+  --colour-surface: #ffffff;
+  --colour-text: #17202a;
+  --colour-muted: #526d82;
+  --colour-border: #d9e2ec;
+  --colour-accent: #075ea8;
+  --colour-safe: #27864a;
+  --colour-focus: #ffbf47;
+  --content-width: 75rem;
+  --touch-target: 2.75rem;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}

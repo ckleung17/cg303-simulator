@@ -1,0 +1,35 @@
+"""Dependency-free structural checks for the static simulator."""
+from pathlib import Path
+import re
+
+ROOT = Path(__file__).resolve().parents[1]
+
+required = [
+    "index.html", "manifest.webmanifest", "service-worker.js",
+    "css/tokens.css", "css/base.css", "css/layout.css",
+    "css/components/simulator.css", "js/app.js",
+    "data/scenarios/radial-scenarios.js", "assets/svg/app-icon.svg",
+]
+missing = [path for path in required if not (ROOT / path).is_file()]
+assert not missing, f"Missing required files: {missing}"
+
+html = (ROOT / "index.html").read_text(encoding="utf-8")
+assert 'name="viewport"' in html
+assert 'type="module" src="js/app.js"' in html
+assert 'aria-label="Diagnostic stages"' in html
+assert "data-stage=\"report\"" in html
+
+scenario_source = (ROOT / "data/scenarios/radial-scenarios.js").read_text(encoding="utf-8")
+fault_ids = re.findall(r'id: "(open-neutral-so2|open-cpc-so2|low-ir-ln|reversed-polarity-so2)"', scenario_source)
+assert len(set(fault_ids)) == 4, "Expected four unique initial faults"
+assert scenario_source.count("measure(test, a, b)") == 4
+
+app = (ROOT / "js/app.js").read_text(encoding="utf-8")
+for workflow in ["renderSafety", "takeReading", "submitDiagnosis", "finishAttempt"]:
+    assert f"function {workflow}" in app
+
+css = (ROOT / "css/components/simulator.css").read_text(encoding="utf-8")
+assert "@media(max-width:40rem)" in css
+assert ".terminal-button" in css
+
+print("Project structure, core scenarios, workflow and responsive rules verified.")

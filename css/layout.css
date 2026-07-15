@@ -1,0 +1,23 @@
+.site-header, .app-layout {
+  width: min(100% - 2rem, var(--content-width));
+  margin-inline: auto;
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+.app-layout { min-height: 20rem; padding: 1.5rem; background: var(--colour-surface); }
+
+@media (max-width: 40rem) {
+  .site-header, .app-layout { width: 100%; }
+  .site-header { padding-inline: 1rem; }
+  .app-layout { padding: 1rem; }
+}
+
+@media (orientation: landscape) and (max-height: 31rem) {
+  .site-header h1 { font-size: 1.25rem; }
+  .app-layout { min-height: auto; }
+}

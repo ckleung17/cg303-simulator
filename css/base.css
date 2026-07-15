@@ -1,0 +1,19 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { font-family: system-ui, sans-serif; line-height: 1.5; }
+body {
+  min-width: 20rem;
+  margin: 0;
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+  color: var(--colour-text);
+  background: var(--colour-canvas);
+  -webkit-text-size-adjust: 100%;
+}
+button, input, select, textarea { font: inherit; }
+button, [role="button"], input[type="button"], input[type="submit"] {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+}
+img, svg { max-width: 100%; height: auto; }
+:focus-visible { outline: 0.2rem solid var(--colour-focus); }
+.skip-link { position: absolute; top: -10rem; left: 1rem; }
+.skip-link:focus { top: 0.5rem; }

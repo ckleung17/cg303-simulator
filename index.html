@@ -1,382 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C&G 303 Python-Powered Web Simulator</title>
-    
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
-    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
-
-    <style>
-        :root {
-            --bg-color: #2c3e50;
-            --card-bg: #34495e;
-            --text-color: #ecf0f1;
-            --danger: #e74c3c;
-            --warning: #e67e22;
-            --success: #2ecc71;
-            --info: #3498db;
-            --mft-screen: #1abc9c;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            max-width: 900px;
-            width: 100%;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: 1.2fr 0.8fr;
-            }
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 15px;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
-            padding-bottom: 8px;
-        }
-
-        .iso-card {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .status-badge {
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .status-unsafe {
-            background-color: var(--danger);
-            color: #fff;
-        }
-
-        .status-safe {
-            background-color: var(--success);
-            color: #2c3e50;
-        }
-
-        button {
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .btn-iso {
-            background-color: var(--warning);
-            color: white;
-            padding: 12px 20px;
-            font-size: 1rem;
-        }
-
-        .btn-iso.active {
-            background-color: #95a5a6;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            border: none;
-            background-color: #2c3e50;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .btn-test {
-            width: 100%;
-            background-color: var(--success);
-            color: white;
-            padding: 15px;
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-
-        .mft-display {
-            background-color: var(--mft-screen);
-            color: #2c3e50;
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 20px;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            border: 3px inset rgba(0,0,0,0.2);
-        }
-
-        .mft-val {
-            font-size: 1.6rem;
-            margin-bottom: 5px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            background-color: var(--info);
-            color: white;
-            padding: 12px;
-            font-size: 1rem;
-            margin-top: 15px;
-        }
-
-        .hints {
-            font-size: 0.85rem;
-            color: #bdc3c7;
-            margin-top: 20px;
-            line-height: 1.4;
-            border-top: 1px dashed rgba(255,255,255,0.1);
-            padding-top: 15px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102a43">
+  <meta name="description" content="Original fault-diagnosis practice scenarios for City & Guilds 2365-03 Unit 303 learners.">
+  <title>CG303 Fault Lab</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/svg/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/svg/app-icon.svg">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components/simulator.css">
 </head>
 <body>
-
-<div class="container">
-    <h1>C&G Unit 303: PyScript Simulator</h1>
-
-    <div class="grid">
-        <div class="card iso-card">
-            <div>
-                <div class="card-title" style="border:none; margin:0;">Pillar 1: Safe Isolation</div>
-                <p style="margin: 5px 0 0 0; font-size:0.9rem; color:#bdc3c7;">Always verify isolation before connecting sensitive instruments.</p>
-            </div>
-            <div id="isoStatus" class="status-badge status-unsafe">Status: System Live</div>
-            <button id="isoBtn" class="btn-iso" py-click="toggle_isolation">Isolate & Lock Off</button>
-        </div>
-
-        <div class="card">
-            <div class="card-title" style="color: var(--info);">Pillar 3: Consumer Unit & MFT</div>
-            
-            <div class="form-group">
-                <label for="circuitSelect">1. Select Circuit under Test:</label>
-                <select id="circuitSelect">
-                    <option value="">-- Choose Circuit --</option>
-                    <option value="ring">Ring Final Circuit</option>
-                    <option value="radial">Radial Cooker Circuit</option>
-                    <option value="lighting">Lighting Circuit</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="testSelect">2. Select Tester Function:</label>
-                <select id="testSelect">
-                    <option value="">-- Choose Test Mode --</option>
-                    <option value="cont">Continuity (Low-Resistance Ohms)</option>
-                    <option value="ir">Insulation Resistance (IR @ 500V)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="probeSelect">3. Connect Test Probes to:</label>
-                <select id="probeSelect">
-                    <option value="L-N">Line - Neutral (L - N)</option>
-                    <option value="L-E">Line - Earth (L - CPC)</option>
-                    <option value="N-E">Neutral - Earth (N - CPC)</option>
-                </select>
-            </div>
-
-            <button class="btn-test" py-click="execute_test">PRESS TO TEST</button>
-
-            <div class="mft-display">
-                <div id="mftVal" class="mft-val">[MFT OFF]</div>
-                <div id="mftMsg">Isolate system & press test.</div>
-            </div>
-        </div>
-
-        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div class="card-title" style="color: var(--success);">Pillar 4: Diagnosis Log</div>
-                
-                <div class="form-group">
-                    <label for="diagCirc">Select Faulty Circuit:</label>
-                    <select id="diagCirc">
-                        <option value="">-- Select --</option>
-                        <option value="ring">Ring Final</option>
-                        <option value="radial">Radial Cooker</option>
-                        <option value="lighting">Lighting</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="diagType">Identify Fault Type:</label>
-                    <select id="diagType">
-                        <option value="">-- Select --</option>
-                        <option value="open">Open Circuit (Broken loop)</option>
-                        <option value="short">Low Insulation Resistance (Short)</option>
-                        <option value="high">High Resistance Joint</option>
-                    </select>
-                </div>
-
-                <button class="btn-submit" py-click="submit_diagnosis">Submit to Assessor</button>
-            </div>
-
-            <div class="hints">
-                <strong>Python Core Active</strong><br>
-                This board's state, validation logic, and diagnostic scoring are running in pure Python via WebAssembly.
-            </div>
-        </div>
+  <a class="skip-link" href="#main-content">Skip to simulator</a>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="CG303 Fault Lab home">
+      <span class="brand-mark" aria-hidden="true">303</span>
+      <span><strong>Fault Lab</strong><small>Electrical diagnosis simulator</small></span>
+    </a>
+    <div class="header-actions">
+      <label class="mode-control">Mode
+        <select id="mode-select"><option value="guided">Guided</option><option value="practice">Practice</option><option value="exam">Exam-style</option></select>
+      </label>
+      <button id="new-scenario" class="button button-primary" type="button">New fault</button>
     </div>
-</div>
+  </header>
 
-<script type="py">
-from pyscript import document, window
+  <main id="main-content">
+    <section class="hero">
+      <div><p class="eyebrow">City &amp; Guilds 2365-03 ? Unit 303 practice</p><h1>Diagnose the fault. Prove your reasoning.</h1>
+      <p>Work through an original, randomly selected radial-circuit fault using safe isolation, suitable instruments and evidence-led diagnosis.</p></div>
+      <div class="scenario-id"><span>Scenario seed</span><strong id="seed-display">?</strong></div>
+    </section>
 
-# Global Simulator State (Python variables)
-is_isolated = False
+    <nav class="stage-nav" aria-label="Diagnostic stages">
+      <button class="stage-tab active" data-stage="brief" type="button"><span>1</span> Brief</button>
+      <button class="stage-tab" data-stage="safety" type="button"><span>2</span> Safety</button>
+      <button class="stage-tab" data-stage="test" type="button"><span>3</span> Test</button>
+      <button class="stage-tab" data-stage="diagnose" type="button"><span>4</span> Diagnose</button>
+      <button class="stage-tab" data-stage="report" type="button"><span>5</span> Report</button>
+    </nav>
 
-def toggle_isolation(event):
-    global is_isolated
-    
-    status_badge = document.getElementById("isoStatus")
-    iso_btn = document.getElementById("isoBtn")
-    mft_val = document.getElementById("mftVal")
-    mft_msg = document.getElementById("mftMsg")
+    <div class="workspace">
+      <section class="panel work-panel">
+        <div id="stage-brief" class="stage-view active">
+          <div class="section-heading"><div><p class="eyebrow">Job information</p><h2>Customer brief</h2></div><span class="status-chip">Single-phase radial</span></div>
+          <blockquote id="complaint" class="complaint"></blockquote>
+          <dl class="facts"><div><dt>Supply</dt><dd>230 V AC, TN-C-S</dd></div><div><dt>Protection</dt><dd>B20 RCBO, 30 mA</dd></div><div><dt>Conductors</dt><dd>2.5/1.5 mm? T&amp;E</dd></div><div><dt>Last result</dt><dd>R1+R2 0.41 ?</dd></div></dl>
+          <fieldset><legend>Initial observations</legend><label class="check-row"><input type="checkbox" data-observation="complaint"> Confirm the reported symptoms with the customer</label><label class="check-row"><input type="checkbox" data-observation="documents"> Review the circuit schedule and previous results</label><label class="check-row"><input type="checkbox" data-observation="visual"> Carry out a visual inspection before testing</label></fieldset>
+          <button class="button button-primary next-stage" data-next="safety" type="button">Continue to safety</button>
+        </div>
 
-    is_isolated = not is_isolated
+        <div id="stage-safety" class="stage-view">
+          <div class="section-heading"><div><p class="eyebrow">LO1 ? Safe working</p><h2>Prepare and isolate</h2></div><span id="isolation-state" class="status-chip warning">Not isolated</span></div>
+          <p>Complete the safe-isolation sequence in the correct order. An incorrect action is recorded.</p>
+          <ol id="isolation-list" class="sequence-list"></ol>
+          <div id="safety-feedback" class="feedback" aria-live="polite"></div>
+          <button id="safety-continue" class="button button-primary" type="button" disabled>Continue to testing</button>
+        </div>
 
-    if is_isolated:
-        status_badge.innerText = "Status: Safe & Isolated"
-        status_badge.className = "status-badge status-safe"
-        iso_btn.innerText = "Remove Lockout"
-        iso_btn.classList.add("active")
-        mft_val.innerText = "MFT STANDBY"
-        mft_msg.innerText = "Probes connected. Ready to test."
-    else:
-        status_badge.innerText = "Status: System Live"
-        status_badge.className = "status-badge status-unsafe"
-        iso_btn.innerText = "Isolate & Lock Off"
-        iso_btn.classList.remove("active")
-        mft_val.innerText = "[MFT OFF]"
-        mft_msg.innerText = "Isolate system before testing."
+        <div id="stage-test" class="stage-view">
+          <div class="section-heading"><div><p class="eyebrow">LO4 ? Fault diagnosis</p><h2>Test the circuit</h2></div><span id="supply-state" class="status-chip safe">Isolated</span></div>
+          <div class="test-layout">
+            <div class="circuit-card">
+              <svg class="circuit" viewBox="0 0 760 290" role="img" aria-labelledby="circuit-title circuit-desc">
+                <title id="circuit-title">Single-phase radial socket circuit</title><desc id="circuit-desc">Consumer unit feeding two socket outlets with labelled line, neutral and CPC test terminals.</desc>
+                <g class="wires line"><path d="M120 72 H650"/></g><g class="wires neutral"><path d="M120 142 H650"/></g><g class="wires cpc"><path d="M120 212 H650"/></g>
+                <g class="board"><rect x="28" y="36" width="94" height="214" rx="8"/><text x="75" y="62">DB1</text><text x="75" y="91">B20</text><text x="75" y="108">RCBO</text></g>
+                <g class="accessory"><rect x="290" y="42" width="110" height="210" rx="8"/><text x="345" y="269">SO1</text></g>
+                <g class="accessory"><rect x="595" y="42" width="110" height="210" rx="8"/><text x="650" y="269">SO2</text></g>
+                <g id="terminal-markers"></g>
+                <text class="wire-label" x="142" y="64">Line</text><text class="wire-label" x="142" y="134">Neutral</text><text class="wire-label" x="142" y="204">CPC</text>
+              </svg>
+              <p class="diagram-help">Select two labelled terminals below. This is the touch and keyboard alternative to dragging test leads.</p>
+              <div id="terminal-buttons" class="terminal-grid" aria-label="Circuit test terminals"></div>
+            </div>
+            <form id="meter-form" class="meter" novalidate>
+              <div class="meter-screen"><span id="meter-unit">?</span><strong id="meter-reading">---- </strong></div>
+              <label>Instrument<select id="instrument-select"></select></label>
+              <label>Function<select id="test-select"></select></label>
+              <div class="lead-display"><span>Lead A: <strong id="lead-a">not set</strong></span><span>Lead B: <strong id="lead-b">not set</strong></span></div>
+              <button class="button button-primary" type="submit">Take reading</button>
+              <button id="clear-leads" class="button button-quiet" type="button">Clear leads</button>
+            </form>
+          </div>
+          <div id="test-feedback" class="feedback" aria-live="polite"></div>
+          <div class="results-wrap"><h3>Test record</h3><div class="table-scroll"><table><thead><tr><th>Test</th><th>Points</th><th>Result</th></tr></thead><tbody id="results-body"><tr><td colspan="3">No readings recorded.</td></tr></tbody></table></div></div>
+          <button class="button button-primary next-stage" data-next="diagnose" type="button">Make a diagnosis</button>
+        </div>
 
-def execute_test(event):
-    mft_val = document.getElementById("mftVal")
-    mft_msg = document.getElementById("mftMsg")
+        <div id="stage-diagnose" class="stage-view">
+          <div class="section-heading"><div><p class="eyebrow">LO3 &amp; LO6</p><h2>Submit your diagnosis</h2></div></div>
+          <form id="diagnosis-form"><fieldset><legend>What is the most likely fault?</legend><div id="diagnosis-options" class="choice-grid"></div></fieldset>
+          <label>Evidence and reasoning<textarea id="reasoning" rows="4" placeholder="Refer to symptoms and at least one test result..."></textarea></label>
+          <fieldset><legend>Recommended action</legend><div id="action-options" class="choice-grid"></div></fieldset>
+          <button class="button button-primary" type="submit">Submit diagnosis</button></form>
+          <div id="diagnosis-feedback" class="feedback" aria-live="polite"></div>
+        </div>
 
-    # Safe isolation check
-    if not is_isolated:
-        window.alert("⚠️ CRITICAL SAFETY FAILURE!\nYou attempted to run a dead test on a live consumer board. You have blown the test instrument fuses and failed the assessment.")
-        mft_val.innerText = "[FUSE BLOWN]"
-        mft_msg.innerText = "System must be reset/isolated."
-        return
+        <div id="stage-report" class="stage-view">
+          <div class="section-heading"><div><p class="eyebrow">Attempt complete</p><h2>Your diagnostic report</h2></div><strong id="score-ring" class="score-ring">0%</strong></div>
+          <div id="report-summary"></div><div id="outcome-grid" class="outcome-grid"></div>
+          <div class="report-actions"><button id="repeat-scenario" class="button" type="button">Repeat seed</button><button id="report-new" class="button button-primary" type="button">Generate new fault</button></div>
+        </div>
+      </section>
 
-    # Grab inputs from HTML elements using PyScript document API
-    circ = document.getElementById("circuitSelect").value
-    test = document.getElementById("testSelect").value
-    probes = document.getElementById("probeSelect").value
-
-    if not circ or not test:
-        window.alert("Please select both a circuit and a test function.")
-        return
-
-    # --- Python Fault Determination Engine ---
-    if test == "cont":  # Continuity Testing (Low Ohms)
-        if circ == "ring":
-            if probes in ["L-N", "N-E"]:
-                mft_val.innerText = "> 19.99 Ω"
-                mft_msg.innerText = "Open Circuit detected on Neutral ring."
-            else:
-                mft_val.innerText = "0.48 Ω"
-                mft_msg.innerText = "Continuity Pass (Normal Loop)"
-        
-        elif circ == "lighting":
-            if probes in ["L-E", "N-E"]:
-                mft_val.innerText = "45.50 Ω"
-                mft_msg.innerText = "Abnormally High Resistance on CPC path."
-            else:
-                mft_val.innerText = "0.25 Ω"
-                mft_msg.innerText = "Continuity Pass (Normal)"
-        
-        else:  # radial
-            mft_val.innerText = "0.12 Ω"
-            mft_msg.innerText = "Continuity Pass (Normal)"
-
-    elif test == "ir":  # Insulation Resistance (@500V DC)
-        if circ == "radial":
-            if probes == "L-E":
-                mft_val.innerText = "0.02 MΩ"
-                mft_msg.innerText = "FAIL: Critical Insulation Breakdown to Earth!"
-            else:
-                mft_val.innerText = "> 299 MΩ"
-                mft_msg.innerText = "Pass (Satisfactory)"
-        else:
-            mft_val.innerText = "> 299 MΩ"
-            mft_msg.innerText = "Pass (Satisfactory)"
-
-def submit_diagnosis(event):
-    dc = document.getElementById("diagCirc").value
-    dt = document.getElementById("diagType").value
-
-    if not dc or not dt:
-        window.alert("Please select both the faulty circuit and the fault type first.")
-        return
-
-    # Evaluate Diagnostic Log in Python
-    if dc == "radial" and dt == "short":
-        window.alert("🎉 ASSESSMENT PASSED!\n\nYou correctly identified the low Insulation Resistance (0.02 MΩ short to Earth) on the Radial Cooker circuit.")
-    elif dc == "ring" and dt == "open":
-        window.alert("🎉 ASSESSMENT PASSED!\n\nYou correctly diagnosed the Open Circuit on the Ring Final Neutral conductor.")
-    elif dc == "lighting" and dt == "high":
-        window.alert("🎉 ASSESSMENT PASSED!\n\nYou correctly pinpointed the high-resistance joint on the Lighting CPC path.")
-    else:
-        window.alert("❌ ASSESSMENT FAILED\n\nYour readings do not match your diagnosis. Review your test measurements and check your isolation status.")
-</script>
-
+      <aside class="panel evidence-panel" aria-labelledby="evidence-title">
+        <div class="section-heading"><div><p class="eyebrow">Attempt log</p><h2 id="evidence-title">Evidence notebook</h2></div><span id="evidence-count" class="count-badge">0</span></div>
+        <ol id="evidence-log" class="evidence-log"><li class="empty">Your actions and readings will appear here.</li></ol>
+        <div class="disclaimer"><strong>Training simulation</strong><p>Original practice content only. It does not certify competence and is not a substitute for supervised practical training.</p></div>
+      </aside>
+    </div>
+  </main>
+  <footer><p>CG303 Fault Lab ? Independent learning aid ? No City &amp; Guilds affiliation implied.</p></footer>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">CG303 Fault Lab</title>
+  <rect width="512" height="512" rx="96" fill="#102a43"/>
+  <path d="M286 60 132 284h108l-22 168 162-244H268z" fill="#f7c948"/>
+  <text x="256" y="474" fill="#fff" font-family="system-ui,sans-serif" font-size="60" font-weight="800" text-anchor="middle">303</text>
+</svg>
