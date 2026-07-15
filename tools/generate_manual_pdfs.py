@@ -11,7 +11,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.platypus import (
     BaseDocTemplate, Frame, PageTemplate, Paragraph, Spacer, PageBreak,
-    KeepTogether, ListFlowable, ListItem, Table, TableStyle,
+    KeepTogether, ListFlowable, ListItem, Table, TableStyle, Flowable,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,6 +42,52 @@ def register_fonts():
 
 
 FONT, FONT_BOLD = register_fonts()
+
+
+class WorkflowDiagram(Flowable):
+    """Portrait-friendly vector version of the simulator workflow SVG."""
+    stages = [
+        ("1", "BRIEF", "Review symptoms and records - form hypotheses", colors.HexColor("#075EA8")),
+        ("2", "SAFETY", "Identify and isolate - prove, dead, re-prove", colors.HexColor("#27864A")),
+        ("3", "TEST", "Select instruments - collect discriminating evidence", colors.HexColor("#D69E2E")),
+        ("4", "DIAGNOSE", "Identify every supported fault - recommend action", colors.HexColor("#7C3AED")),
+        ("5", "REPORT", "Review score and gaps - repeat or start a new scenario", navy),
+    ]
+
+    def __init__(self):
+        super().__init__()
+        self.height = 232
+
+    def wrap(self, available_width, available_height):
+        self.width = available_width
+        return available_width, self.height
+
+    def draw(self):
+        canvas = self.canv
+        canvas.saveState()
+        canvas.setFillColor(colors.HexColor("#F4F8FB"))
+        canvas.roundRect(0, 0, self.width, self.height, 10, fill=1, stroke=0)
+        box_x, box_width, box_height, gap = 16, self.width - 32, 36, 8
+        y = self.height - 48
+        for index, (number, title, detail, accent) in enumerate(self.stages):
+            if index:
+                canvas.setStrokeColor(colors.HexColor("#829AB1")); canvas.setLineWidth(1.5)
+                canvas.line(self.width/2, y+box_height+1, self.width/2, y+box_height+gap-1)
+                canvas.setFillColor(colors.HexColor("#829AB1"))
+                canvas.drawPath(_triangle(canvas, self.width/2, y+box_height+1), fill=1, stroke=0)
+            canvas.setFillColor(colors.white); canvas.setStrokeColor(colors.HexColor("#9FB3C8")); canvas.setLineWidth(.7)
+            canvas.roundRect(box_x, y, box_width, box_height, 7, fill=1, stroke=1)
+            canvas.setFillColor(accent); canvas.circle(box_x+22, y+box_height/2, 11, fill=1, stroke=0)
+            canvas.setFillColor(colors.white); canvas.setFont(FONT_BOLD, 9); canvas.drawCentredString(box_x+22, y+box_height/2-3, number)
+            canvas.setFillColor(navy); canvas.setFont(FONT_BOLD, 9.5); canvas.drawString(box_x+43, y+22, title)
+            canvas.setFillColor(muted); canvas.setFont(FONT, 8); canvas.drawString(box_x+43, y+9, detail)
+            y -= box_height + gap
+        canvas.restoreState()
+
+
+def _triangle(canvas, x, y):
+    path = canvas.beginPath(); path.moveTo(x-3, y+4); path.lineTo(x+3, y+4); path.lineTo(x, y); path.close()
+    return path
 
 
 def styles():
@@ -115,6 +161,8 @@ def parse_markdown(path, label):
             flush_bullets(); story.append(Paragraph(inline(line[4:]), st["h2"]))
         elif line.startswith("- "):
             bullets.append(line[2:])
+        elif re.match(r"^!\[[^\]]*\]\([^)]+simulator-workflow\.svg\)$", line):
+            flush_bullets(); story.append(KeepTogether([Paragraph("Simulator workflow", st["h2"]), WorkflowDiagram(), Spacer(1, 8)]))
         elif re.match(r"^\d+\. ", line):
             flush_bullets(); story.append(Paragraph(inline(line), st["body"]))
         elif line.strip():

@@ -148,6 +148,8 @@ A simulator score is formative feedback and is not a qualification result.
 - Terminal buttons provide keyboard/touch alternatives to graphical probe leads.
 - Mobile safe-area, text enlargement and orientation support.
 - Switchable/single-column layout at phone widths.
+- Centred action-button labels and separately stacked manual-download links at
+  phone widths.
 
 ## 10. Technical structure
 

@@ -24,6 +24,8 @@ assert 'type="module" src="js/app.js"' in html
 assert 'aria-label="Diagnostic stages"' in html
 assert 'aria-labelledby="workflow-heading"' in html
 assert 'assets/svg/diagrams/simulator-workflow.svg' in html
+assert 'class="manual-downloads"' in html
+assert "Independent learning aid. No City &amp; Guilds affiliation implied." in html
 assert 'output/pdf/CG303-Fault-Lab-Specification.pdf" download' in html
 assert 'output/pdf/CG303-Fault-Lab-Operation-Manual.pdf" download' in html
 assert "data-stage=\"report\"" in html
@@ -45,5 +47,7 @@ assert 'type="checkbox" name="diagnosis"' in app
 css = (ROOT / "css/components/simulator.css").read_text(encoding="utf-8")
 assert "@media(max-width:40rem)" in css
 assert ".terminal-button" in css
+assert "#new-scenario" in css and ".manual-downloads" in css
+assert "${escapeText(e.detail)} - ${e.time}" in app
 
 print("Project structure, core scenarios, workflow and responsive rules verified.")

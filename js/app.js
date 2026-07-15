@@ -128,7 +128,7 @@ function finishAttempt(){
 }
 
 function logEvent(title,detail=""){ state.evidence.push({title,detail,time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}); renderEvidence(); }
-function renderEvidence(){ const list=$("#evidence-log"); $("#evidence-count").textContent=String(state.evidence.length); list.innerHTML=state.evidence.length?state.evidence.map(e=>`<li><strong>${escapeText(e.title)}</strong><small>${escapeText(e.detail)} ? ${e.time}</small></li>`).join(""):'<li class="empty">Your actions and readings will appear here.</li>'; }
+function renderEvidence(){ const list=$("#evidence-log"); $("#evidence-count").textContent=String(state.evidence.length); list.innerHTML=state.evidence.length?state.evidence.map(e=>`<li><strong>${escapeText(e.title)}</strong><small>${escapeText(e.detail)} - ${e.time}</small></li>`).join(""):'<li class="empty">Your actions and readings will appear here.</li>'; }
 function setFeedback(el,message,good){el.textContent=message;el.className=`feedback ${good?"good":"bad"}`;}
 function escapeText(value){const d=document.createElement("div");d.textContent=String(value);return d.innerHTML;}
 function saveAttempt(score,correct){try{const history=JSON.parse(localStorage.getItem("cg303-attempts")||"[]");history.unshift({seed:state.seed,score,correct,date:new Date().toISOString()});localStorage.setItem("cg303-attempts",JSON.stringify(history.slice(0,20)));}catch{ /* local storage is optional */ }}

@@ -45,6 +45,8 @@ The start page includes a five-block workflow diagram: **Brief**, **Safety**,
 **Test**, **Diagnose** and **Report**. Use it as an overview of the complete
 process; the numbered navigation immediately below opens each working stage.
 
+![CG303 Fault Lab workflow: Brief, Safety, Test, Diagnose and Report](../assets/svg/diagrams/simulator-workflow.svg)
+
 Use the Mode selector at the top of the page:
 
 - **Guided:** shows explanatory feedback after tests.
@@ -279,6 +281,8 @@ from two related results rather than guesswork.
 
 - Rotate the device if a larger circuit view is helpful.
 - The layout changes to a single column on phones.
+- The New fault control keeps its label centred at narrow widths, and the two
+  manual downloads appear on separate footer lines for easier touch selection.
 - Use browser zoom or text-size controls as required.
 - All major controls meet touch-target sizing requirements.
 - Use Tab and Shift+Tab to move through controls with a keyboard.
