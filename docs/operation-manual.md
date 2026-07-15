@@ -55,10 +55,11 @@ without obscuring the symbol. Each image uses a soft translucent circular
 background. Select a button to open that working stage. The button and image
 respond when hovered or pressed, the current stage glows and completed stages
 receive a green number badge. On a narrow phone screen, each illustration
-expands into a large square pad with a translucent full-pad image and the number
+expands into a large square pad with a translucent image and the number
 centred over its upper edge. The stage name and supporting text sit beneath the
-square. The image is enlarged and positioned against the pad's upper inset, while
-the overlaid number badge is partially transparent. All five compact stages fit
+square. The complete image is proportionally reduced and aligned near the pad's
+upper inset so details such as the diagnosis magnifier handle remain visible,
+while the overlaid number badge is partially transparent. All five compact stages fit
 across the phone screen without sideways scrolling. Small arrows between pads
 preserve the direction of flow, and the supporting description is smaller than
 the stage name.
