@@ -1,7 +1,9 @@
 # CG303 Fault Lab ? Operation Manual
 
-Manual version: 1.0  
-Applies to simulator baseline: commit `4b0c063`  
+Manual version: 1.1
+
+Applies to simulator baseline: commit `3f110c5`
+
 Last updated: 15 July 2026
 
 ## 1. Important notice
@@ -17,7 +19,8 @@ Never use a simulated reading as evidence about a real installation.
 
 ### Online
 
-Open the published simulator address in a current browser. No account is needed.
+Open `https://ckleung17.github.io/cg303-simulator/` in a current browser. No
+account is needed.
 
 ### Local copy
 
@@ -128,7 +131,120 @@ protection, terminals and likely measurements change with the selected family.
 Because the choice is seeded, several consecutive scenarios can occasionally
 come from the same family. Continue selecting **New fault** to broaden coverage.
 
-## 10. Mobile and accessibility operation
+## 10. Worked example - diagnosing an open neutral
+
+This example demonstrates the reasoning expected in the simulator. It is not an
+instruction to work on a real installation without appropriate training,
+authorisation, supervision and safe working procedures.
+
+### Scenario information
+
+The generated exercise is a 230 V radial socket circuit protected by a B20 RCBO.
+The customer reports that SO1 works but equipment connected to SO2 does not. The
+RCBO remains set. The hidden fault is not shown to the learner.
+
+Possible initial hypotheses include:
+
+- Open line conductor between SO1 and SO2.
+- Open neutral conductor between SO1 and SO2.
+- Failed or incorrectly terminated SO2 accessory.
+- A local load fault, although the complaint should be confirmed with known
+  information before assuming this.
+
+### Step 1 - gather information
+
+In the Brief stage:
+
+1. Confirm that the loss of operation is limited to SO2.
+2. Review the circuit schedule and previous R1+R2 result.
+3. Record completion of the visual inspection.
+4. Note that SO1 operating normally makes a complete upstream supply loss less
+   likely, but does not yet distinguish line from neutral discontinuity at SO2.
+
+### Step 2 - complete simulated safe isolation
+
+In the Safety stage, select each action in the displayed order:
+
+1. Obtain permission, identify the circuit and inform affected persons.
+2. Inspect the two-pole voltage indicator and prove it using the proving unit.
+3. Switch off, isolate and lock off the correct protective device.
+4. Display the warning notice and retain control of the lock-off key.
+5. Confirm dead between line-neutral, line-earth and neutral-earth.
+6. Re-prove the voltage indicator.
+
+The simulator blocks resistance testing until this sequence is complete. An
+out-of-order selection is recorded as a safety error.
+
+### Step 3 - select a discriminating test
+
+The most useful first dead test is conductor continuity between the last known
+working point and the non-working point.
+
+1. Open the Test stage.
+2. Select **Low-resistance ohmmeter**.
+3. Select the **Continuity** function.
+4. Select **SO1 Neutral** as Lead A.
+5. Select **SO2 Neutral** as Lead B.
+6. Select **Take reading**.
+
+For this scenario, the simulated meter displays `OL`. Record the meaning rather
+than merely copying the value: there is no neutral continuity between SO1 and
+SO2.
+
+### Step 4 - confirm the diagnosis logically
+
+A single reading should be considered alongside other evidence. Repeat the
+continuity test between **SO1 Line** and **SO2 Line**. The simulator returns a low
+resistance of approximately `0.12 ohm`, showing that the line path is continuous.
+
+The combined evidence is:
+
+- SO1 operates normally.
+- SO2 does not operate.
+- Line continuity from SO1 to SO2 is present.
+- Neutral continuity from SO1 to SO2 is absent.
+
+This evidence supports **Open neutral between SO1 and SO2** and distinguishes it
+from an open line conductor.
+
+Avoid taking numerous unrelated readings once the evidence already discriminates
+between the reasonable hypotheses. A logical sequence is part of the assessment.
+
+### Step 5 - enter the diagnosis and action
+
+In the Diagnose stage:
+
+1. Select **Open neutral between SO1 and SO2**.
+2. Enter reasoning such as: "SO1 operates and line continuity to SO2 measures
+   0.12 ohm, but neutral continuity between SO1 and SO2 is OL, indicating an open
+   neutral in that section."
+3. Select the corrective category that repairs the affected conductor or
+   termination and completes appropriate verification.
+4. Submit the diagnosis.
+
+### Step 6 - state the correction and verification
+
+The appropriate recommendation is to locate and correctly repair the open
+neutral connection or conductor. Before simulated restoration, the work should
+be followed by the relevant verification, including:
+
+- Confirming restored neutral continuity.
+- Confirming protective-conductor continuity remains satisfactory.
+- Verifying polarity.
+- Completing appropriate insulation-resistance and functional checks.
+- Recording the work and informing the relevant person before restoration.
+
+The simulator reports the hidden fault, recommended action and scores for safety,
+information gathering, test evidence, diagnosis, correction and reasoning.
+
+### Why this test sequence works
+
+The complaint alone cannot identify which conductor is open. Testing neutral
+continuity directly targets one hypothesis. Testing line continuity provides a
+comparison that excludes the main alternative. The conclusion therefore follows
+from two related results rather than guesswork.
+
+## 11. Mobile and accessibility operation
 
 - Rotate the device if a larger circuit view is helpful.
 - The layout changes to a single column on phones.
@@ -138,7 +254,7 @@ come from the same family. Continue selecting **New fault** to broaden coverage.
 - Press Space or Enter to activate the focused button or selection.
 - Terminal selection does not depend on colour or drag-and-drop.
 
-## 11. Troubleshooting
+## 12. Troubleshooting
 
 ### The application remains on loading
 
@@ -160,7 +276,7 @@ different terminals have been selected.
 Attempt history is stored locally and can be removed by private browsing,
 clearing site data or changing device/browser. It is not synchronised online.
 
-## 12. Suggested study method
+## 13. Suggested study method
 
 1. Begin in Guided mode and record why each test is useful.
 2. Repeat the seed in Practice mode using fewer tests.
@@ -168,7 +284,7 @@ clearing site data or changing device/browser. It is not synchronised online.
 4. Practise every circuit family and compare symptoms that appear similar.
 5. Discuss unexpected results with a qualified tutor.
 
-## 13. Manual maintenance
+## 14. Manual maintenance
 
 This manual must be updated in the same commit whenever simulator controls,
 workflow, modes, circuit families, instruments, scoring, storage, installation or

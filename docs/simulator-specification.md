@@ -25,6 +25,7 @@ training with real installations and instruments.
 - Portrait and landscape layouts down to 320 CSS pixels wide.
 - Keyboard, mouse, touch and switch-compatible sequential controls.
 - Static web hosting, including GitHub Pages.
+- Production address: `https://ckleung17.github.io/cg303-simulator/`.
 - Offline use after the service worker has cached the application.
 
 JavaScript ES modules and service-worker features require the simulator to be

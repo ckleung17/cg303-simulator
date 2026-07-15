@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 required = [
     "index.html", "manifest.webmanifest", "service-worker.js",
+    ".github/workflows/pages.yml", ".nojekyll",
     "css/tokens.css", "css/base.css", "css/layout.css",
     "css/components/simulator.css", "js/app.js",
     "data/scenarios/radial-scenarios.js", "assets/svg/app-icon.svg",
