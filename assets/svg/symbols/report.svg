@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Diagnostic report clipboard">
+  <rect x="11" y="10" width="42" height="48" rx="6" fill="#eaf5ff" stroke="#075ea8" stroke-width="3"/>
+  <rect x="22" y="5" width="20" height="10" rx="4" fill="#075ea8"/>
+  <path d="m20 29 4 4 7-8M35 29h9M20 43l4 4 7-8M35 43h9" fill="none" stroke="#23864b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -47,11 +47,13 @@ connection. Browser-specific installation wording varies.
 
 ## 3. Selecting a learning mode
 
-The start page shows five numbered workflow buttons. Select **Brief**,
-**Safety**, **Test**, **Diagnose** or **Report** to open that working stage. The
-button being pressed moves down briefly, the current stage is highlighted and
-completed stages are marked. On a narrow phone screen, swipe the workflow row
-sideways to reach every stage.
+The start page shows five illustrated workflow buttons. The document, padlock,
+test meter, fault magnifier and report clipboard images identify **Brief**,
+**Safety**, **Test**, **Diagnosis** and **Report**. A numbered badge is overlaid
+on every image to preserve the required sequence. Select a button to open that
+working stage. The button and image respond when hovered or pressed, the current
+stage glows and completed stages receive a green number badge. On a narrow phone
+screen, swipe the workflow row sideways to reach every stage.
 
 Use the Mode selector at the top of the page:
 
@@ -293,8 +295,9 @@ from two related results rather than guesswork.
 - All major controls meet touch-target sizing requirements.
 - Use Tab and Shift+Tab to move through controls with a keyboard.
 - Press Space or Enter to activate the focused button or selection.
-- The five workflow blocks are real buttons with visible hover, pressed,
-  keyboard-focus, current-stage and completed-stage feedback.
+- The five illustrated workflow blocks are real buttons with visible hover,
+  pressed, keyboard-focus, current-stage and completed-stage feedback. Their
+  text labels remain visible on phone screens.
 - Terminal selection does not depend on colour or drag-and-drop.
 - Subtle electrical-grid, stage, terminal and meter effects provide visual
   feedback without changing any result or diagnostic rule. Select **New fault**

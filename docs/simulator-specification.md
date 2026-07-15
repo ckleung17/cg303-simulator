@@ -96,11 +96,14 @@ and provides a reproducible scenario deep link.
 ## 6. Diagnostic workflow
 
 The interface presents this sequence as five semantic button blocks within the
-workflow diagram. The diagram is the sole stage navigation control: the former
-duplicate navigation bar has been removed. Each button exposes visible hover,
-pressed, keyboard-focus, active-stage and completed-stage states. At narrow
-widths the touch-sized blocks scroll horizontally rather than compressing their
-labels. The PDF manual retains a static version for printed reference.
+workflow diagram. Each button combines a related original SVG image (document,
+padlock, test meter, fault magnifier or report clipboard), a numbered image
+badge, a stage label directly beneath the image and concise supporting text. The diagram is the sole stage
+navigation control: the former duplicate navigation bar has been removed. Each
+button exposes visible hover, pressed, keyboard-focus, active-stage and
+completed-stage states. At narrow widths the touch-sized blocks scroll
+horizontally without hiding or compressing their labels. The PDF manual retains
+a static version for printed reference.
 
 1. Review the customer complaint, circuit information and previous result.
 2. Record initial information-gathering actions.

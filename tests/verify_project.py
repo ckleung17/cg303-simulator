@@ -10,6 +10,9 @@ required = [
     "css/tokens.css", "css/base.css", "css/layout.css",
     "css/components/simulator.css", "js/app.js",
     "data/scenarios/radial-scenarios.js", "assets/svg/app-icon.svg",
+    "assets/svg/symbols/brief.svg", "assets/svg/symbols/safety.svg",
+    "assets/svg/symbols/test.svg", "assets/svg/symbols/diagnose.svg",
+    "assets/svg/symbols/report.svg",
     "assets/svg/diagrams/simulator-workflow.svg",
     "docs/simulator-specification.md", "docs/operation-manual.md",
     "output/pdf/CG303-Fault-Lab-Specification.pdf",
@@ -25,6 +28,10 @@ assert 'class="workflow-buttons" aria-label="Diagnostic stages"' in html
 assert 'aria-labelledby="workflow-heading"' in html
 assert '<nav class="stage-nav"' not in html
 assert html.count('class="stage-tab') == 5
+assert html.count('class="stage-icon"') == 5
+assert html.count('class="stage-number"') == 5
+for stage_label in ["Brief", "Safety", "Test", "Diagnosis", "Report"]:
+    assert f"<strong>{stage_label}</strong>" in html
 assert 'class="manual-downloads"' in html
 assert "Independent learning aid. No City &amp; Guilds affiliation implied." in html
 assert 'output/pdf/CG303-Fault-Lab-Specification.pdf" download' in html

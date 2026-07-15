@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Electrical test meter">
+  <rect x="12" y="6" width="40" height="52" rx="7" fill="#fff7df" stroke="#d89516" stroke-width="3"/>
+  <rect x="19" y="13" width="26" height="14" rx="3" fill="#c8dab7" stroke="#526d82" stroke-width="2"/>
+  <circle cx="32" cy="39" r="8" fill="#fff" stroke="#075ea8" stroke-width="3"/><path d="m32 39 5-4" stroke="#075ea8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="23" cy="52" r="3" fill="#b42318"/><circle cx="41" cy="52" r="3" fill="#102a43"/>
+</svg>
