@@ -59,6 +59,11 @@ assert "#new-scenario" in css and ".manual-downloads" in css
 for visual_effect in ["spark-sweep", "reading-pulse", "prefers-reduced-motion", "#dff2ff99", "repeat(5,minmax(0,1fr))", "15.5vw", "opacity:.78", "right:-.34rem"]:
     assert visual_effect in css, f"Missing visual effect: {visual_effect}"
 assert "function triggerEffect" in app
+assert "function renderOutcomeScene" in app
+for circuit_scene in ["radial:[", "ring:[", "lighting:[", "dedicated:[", "control:[", "threephase:["]:
+    assert circuit_scene in app, f"Missing circuit outcome scene: {circuit_scene}"
+for animation_rule in ["hazard-flash", "blackout", "meal-ready", "motor-spin", "translateY(-.38rem)"]:
+    assert animation_rule in css, f"Missing outcome animation: {animation_rule}"
 assert "${escapeText(e.detail)} - ${e.time}" in app
 
 print("Project structure, core scenarios, workflow and responsive rules verified.")

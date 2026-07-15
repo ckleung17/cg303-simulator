@@ -57,7 +57,7 @@ respond when hovered or pressed, the current stage glows and completed stages
 receive a green number badge. On a narrow phone screen, each illustration
 expands into a large square pad with a translucent full-pad image and the number
 centred over its upper edge. The stage name and supporting text sit beneath the
-square. The image is enlarged and shifted towards the pad's upper edge, while
+square. The image is enlarged and shifted close to the pad's upper edge, while
 the overlaid number badge is partially transparent. All five compact stages fit
 across the phone screen without sideways scrolling. Small arrows between pads
 preserve the direction of flow, and the supporting description is smaller than
@@ -143,6 +143,16 @@ The report displays:
 - Hidden fault and recommended action.
 - Your submitted reasoning.
 - Results mapped to Unit 303 learning-outcome themes.
+- A circuit-specific animated outcome with an equivalent text description.
+
+A restored outcome appears only when the diagnosis is complete, every active
+fault has supporting key-test evidence and the appropriate corrective action is
+selected. Radial and ring circuits show restored outlets, lighting shows an
+illuminated lamp, the dedicated-load scene shows an oven completing its cycle,
+the control scene shows the contactor operating and the three-phase scene shows
+the motor running. An incomplete or unsafe outcome instead uses a non-graphic
+hazard flash and blackout with a review message; it does not depict physical
+injury.
 
 Use **Repeat seed** to restart the exact scenario or **Generate new fault** for a
 different exercise. Previous summary results may be retained only in the current
@@ -305,11 +315,15 @@ from two related results rather than guesswork.
 - Press Space or Enter to activate the focused button or selection.
 - The five illustrated workflow blocks are real buttons with visible hover,
   pressed, keyboard-focus, current-stage and completed-stage feedback. Their
-  text labels remain visible on phone screens.
+  text labels remain visible on phone screens. Desktop buttons also use enlarged
+  translucent image pads.
 - Terminal selection does not depend on colour or drag-and-drop.
 - Subtle electrical-grid, stage, terminal and meter effects provide visual
   feedback without changing any result or diagnostic rule. Select **New fault**
   to see the brief spark effect, and take a valid reading to see the meter pulse.
+- Correct actions produce a brief restoration glow. Incorrect actions produce a
+  brief hazard/blackout cue, and the final report uses the circuit-specific
+  outcome described in Stage 5.
 - Devices configured to reduce motion do not play the movement effects.
 
 ## 12. Troubleshooting

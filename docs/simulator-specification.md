@@ -108,7 +108,7 @@ button separates into a responsive square image pad and text below it: the SVG
 fills the pad translucently, the number overlays the top of the image, and the
 stage name plus supporting text remain outside and beneath the square. All five
 buttons use equal columns and fit within a 320px screen without horizontal
-scrolling. The phone treatment shifts and enlarges each image towards the top
+scrolling. The phone treatment shifts and enlarges each image close to the top
 edge, applies partial opacity to the number badge, uses compact connector arrows
 between pads and reduces the supporting-description type without reducing the
 stage-name type. The PDF manual retains a static version for printed reference.
@@ -166,6 +166,16 @@ A simulator score is formative feedback and is not a qualification result.
   phone widths.
 - Decorative electrical-grid, active-stage, selected-terminal, new-fault and
   meter-reading effects that do not carry essential information.
+- Large translucent workflow image pads on desktop as well as responsive phone
+  pads.
+- Brief restoration feedback for accepted actions and a non-graphic electrical
+  hazard/blackout cue for rejected actions.
+- Circuit-specific final scenes for radial, ring, lighting, dedicated-load,
+  contactor-control and three-phase outcomes. A restoration scene requires a
+  complete diagnosis, supporting key-test evidence and the appropriate action;
+  otherwise the report presents the review/blackout state.
+- Live text equivalents for every animated outcome; no meaning depends on
+  animation, colour or imagery alone.
 - Automatic suppression of movement effects when the operating system or
   browser requests reduced motion.
 
@@ -201,8 +211,8 @@ Every release must:
   network solver.
 - Compatibility is currently enforced at circuit-family level; more detailed
   masking and interaction constraints remain an area for expansion.
-- Simulated correction is selected and reported; components are not graphically
-  dismantled or rewired.
+- Simulated correction is selected and reported with a stylised outcome scene;
+  components are not graphically dismantled or rewired.
 - Formal technical review metadata is still required for released scenario data.
 - Automated end-to-end browser coverage should be expanded.
 

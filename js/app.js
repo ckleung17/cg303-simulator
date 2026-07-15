@@ -37,6 +37,7 @@ function newScenario(seed=makeSeed()){
   $$("[data-observation]").forEach(el=>{ if(el instanceof HTMLInputElement) el.checked=false; });
   renderSafety(); renderTerminals(); renderMeterOptions(); renderChoices(); renderReadings(); renderEvidence();
   $("#test-feedback").textContent=""; $("#diagnosis-feedback").textContent=""; $("#reasoning").value="";
+  $("#outcome-scene").innerHTML=""; $("#outcome-scene").className="outcome-scene";
   showStage("brief"); logEvent("Scenario opened",`Seed ${seed} - ${state.fault.componentFaults.length} hidden fault${state.fault.componentFaults.length===1?"":"s"}`);
   triggerEffect($("#new-scenario"),"spark",650);
 }
@@ -127,12 +128,30 @@ function finishAttempt(){
   const outcomes=[
     ["LO1","Health & safety",safety>=20,`${safety}/25`],["LO2","Communication",information>=10,`${information}/15`],["LO3","Fault characteristics",correct,`${diagnosis}/20`],["LO4","Diagnosis procedure",testing>=18,`${testing}/25`],["LO5","Correction",correction===10,`${correction}/10`],["LO6","Perform diagnosis",correct&&useful,correct&&useful?"Met":"Review"]
   ];
-  $("#outcome-grid").innerHTML=outcomes.map(o=>`<div class="outcome-card ${o[2]?"pass":"review"}"><strong>${o[0]} ? ${o[1]}</strong><span>${o[3]}</span></div>`).join(""); showStage("report"); saveAttempt(score,correct);
+  const restored=correct&&useful&&state.action===0;
+  $("#outcome-grid").innerHTML=outcomes.map(o=>`<div class="outcome-card ${o[2]?"pass":"review"}"><strong>${o[0]} ? ${o[1]}</strong><span>${o[3]}</span></div>`).join(""); renderOutcomeScene(restored); showStage("report"); saveAttempt(score,correct);
+}
+
+function renderOutcomeScene(correct){
+  const type=state.fault.type, scene=$("#outcome-scene");
+  const success={
+    radial:["Socket circuit restored","The repaired radial circuit supplies the connected load.",'<div class="scene-socket"><i></i><i></i><b></b></div>'],
+    ring:["Ring circuit restored","Both paths and socket outlets are available again.",'<div class="scene-ring"><i></i><i></i><b></b></div>'],
+    lighting:["Lights restored","The luminaire comes back on after the supported repair.",'<div class="scene-lamp"><i></i><b></b></div>'],
+    dedicated:["Oven operating","The dedicated load completes its cycle and delivers a grilled chicken.",'<div class="scene-oven"><i></i><b></b><em></em></div>'],
+    control:["Control restored","The contactor pulls in and the controlled equipment runs.",'<div class="scene-contactor"><i></i><i></i><b></b></div>'],
+    threephase:["Motor running","The three-phase motor returns to balanced operation.",'<div class="scene-motor"><i></i><b></b></div>']
+  };
+  const item=success[type]||success.radial;
+  const title=correct?item[0]:"Unsafe outcome - review required";
+  const detail=correct?item[1]:`The ${state.fault.circuit.toLowerCase()} remains unsafe or unavailable. Recheck the evidence before any simulated return to service.`;
+  scene.className=`outcome-scene scene-${type} ${correct?"scene-success":"scene-failure"}`;
+  scene.innerHTML=`<div class="scene-canvas" aria-hidden="true">${item[2]}<span class="scene-bolt"></span><span class="scene-blackout"></span></div><p><strong>${escapeText(title)}</strong><span>${escapeText(detail)}</span></p>`;
 }
 
 function logEvent(title,detail=""){ state.evidence.push({title,detail,time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}); renderEvidence(); }
 function renderEvidence(){ const list=$("#evidence-log"); $("#evidence-count").textContent=String(state.evidence.length); list.innerHTML=state.evidence.length?state.evidence.map(e=>`<li><strong>${escapeText(e.title)}</strong><small>${escapeText(e.detail)} - ${e.time}</small></li>`).join(""):'<li class="empty">Your actions and readings will appear here.</li>'; }
-function setFeedback(el,message,good){el.textContent=message;el.className=`feedback ${good?"good":"bad"}`;}
+function setFeedback(el,message,good){el.textContent=message;el.className=`feedback ${good?"good":"bad"}`;triggerEffect(document.body,good?"action-correct":"action-wrong",520);}
 function triggerEffect(element,className,duration){if(!element||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;element.classList.remove(className);void element.offsetWidth;element.classList.add(className);window.setTimeout(()=>element.classList.remove(className),duration);}
 function escapeText(value){const d=document.createElement("div");d.textContent=String(value);return d.innerHTML;}
 function saveAttempt(score,correct){try{const history=JSON.parse(localStorage.getItem("cg303-attempts")||"[]");history.unshift({seed:state.seed,score,correct,date:new Date().toISOString()});localStorage.setItem("cg303-attempts",JSON.stringify(history.slice(0,20)));}catch{ /* local storage is optional */ }}

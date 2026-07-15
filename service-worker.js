@@ -1,4 +1,4 @@
-const CACHE = "cg303-fault-lab-v15";
+const CACHE = "cg303-fault-lab-v17";
 const FILES = [
   "./", "index.html", "css/tokens.css", "css/base.css", "css/layout.css",
   "css/components/simulator.css", "js/app.js",
