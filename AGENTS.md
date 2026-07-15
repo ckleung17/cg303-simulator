@@ -75,6 +75,9 @@ When editing:
 2. Add deterministic tests for every new fault or measurement rule.
 3. Include tests for invalid combinations and unsafe actions.
 4. Update the relevant documentation in the same change.
+5. Update both `docs/simulator-specification.md` and
+   `docs/operation-manual.md` whenever behaviour visible to learners or
+   maintainers changes. A feature amendment is incomplete without this update.
 
 Before handing off:
 

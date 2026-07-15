@@ -57,6 +57,10 @@ python tests/verify_project.py
   constraints.
 - [Scenario specification](docs/scenario-specification.md): circuits, faults,
   tools, measurements and generation rules.
+- [Simulator specification](docs/simulator-specification.md): maintained
+  functional, technical, assessment and platform specification.
+- [Operation manual](docs/operation-manual.md): maintained learner instructions,
+  installation guidance and troubleshooting.
 - [Contributing](CONTRIBUTING.md): review, testing and change-management workflow.
 - [Decisions](docs/decisions/0001-typescript-browser-app.md): why TypeScript is
   the primary implementation language.
