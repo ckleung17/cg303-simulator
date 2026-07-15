@@ -11,7 +11,7 @@ required = [
     "css/components/simulator.css", "js/app.js",
     "data/scenarios/radial-scenarios.js", "assets/svg/app-icon.svg",
     "assets/svg/symbols/brief.svg", "assets/svg/symbols/safety.svg",
-    "assets/svg/symbols/test.svg", "assets/svg/symbols/diagnose.svg",
+    "assets/svg/symbols/test.svg", "assets/svg/symbols/diagnosis.svg",
     "assets/svg/symbols/report.svg",
     "assets/svg/diagrams/simulator-workflow.svg",
     "docs/simulator-specification.md", "docs/operation-manual.md",
@@ -62,7 +62,7 @@ assert "function triggerEffect" in app
 assert "function renderOutcomeScene" in app
 for circuit_scene in ["radial:[", "ring:[", "lighting:[", "dedicated:[", "control:[", "threephase:["]:
     assert circuit_scene in app, f"Missing circuit outcome scene: {circuit_scene}"
-for animation_rule in ["hazard-flash", "blackout", "meal-ready", "motor-spin", "scale(.84)"]:
+for animation_rule in ["hazard-flash", "blackout", "meal-ready", "motor-spin", "scale(.72)"]:
     assert animation_rule in css, f"Missing outcome animation: {animation_rule}"
 assert "${escapeText(e.detail)} - ${e.time}" in app
 

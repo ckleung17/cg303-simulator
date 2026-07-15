@@ -1,10 +1,10 @@
-const CACHE = "cg303-fault-lab-v21";
+const CACHE = "cg303-fault-lab-v22";
 const FILES = [
   "./", "index.html", "css/tokens.css", "css/base.css", "css/layout.css",
   "css/components/simulator.css", "js/app.js",
   "data/scenarios/radial-scenarios.js", "assets/svg/app-icon.svg",
   "assets/svg/symbols/brief.svg", "assets/svg/symbols/safety.svg",
-  "assets/svg/symbols/test.svg", "assets/svg/symbols/diagnose.svg",
+  "assets/svg/symbols/test.svg", "assets/svg/symbols/diagnosis.svg",
   "assets/svg/symbols/report.svg",
   "assets/svg/diagrams/simulator-workflow.svg",
   "output/pdf/CG303-Fault-Lab-Specification.pdf",

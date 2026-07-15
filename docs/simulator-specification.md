@@ -108,9 +108,10 @@ button separates into a responsive square image pad and text below it: the SVG
 sits within the pad translucently, the number overlays the top of the image, and the
 stage name plus supporting text remain outside and beneath the square. All five
 buttons use equal columns and fit within a 320px screen without horizontal
-scrolling. The phone treatment proportionally scales each complete image and
-aligns it near the top edge, applies partial opacity to the number badge, uses compact connector arrows
-between pads and reduces the supporting-description type without reducing the
+scrolling. The phone treatment proportionally scales each complete image to 72
+percent, uses a high-contrast diagnosis magnifier whose handle is contained
+within the SVG, applies partial opacity to the number badge, uses compact
+connector arrows between pads and reduces the supporting-description type without reducing the
 stage-name type. The PDF manual retains a static version for printed reference.
 
 1. Review the customer complaint, circuit information and previous result.

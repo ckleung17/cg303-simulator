@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Fault diagnosis magnifying glass">
+  <circle cx="25" cy="22" r="15" fill="#f4edff" stroke="#7138c7" stroke-width="4"/>
+  <path d="M35 33 49 47" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+  <path d="M35 33 49 47" fill="none" stroke="#7138c7" stroke-width="6" stroke-linecap="round"/>
+  <path d="m27 11-8 12h7l-4 11 13-16h-8z" fill="#f5b82e" stroke="#102a43" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
