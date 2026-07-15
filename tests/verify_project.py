@@ -66,4 +66,8 @@ for animation_rule in ["hazard-flash", "blackout", "meal-ready", "motor-spin", "
     assert animation_rule in css, f"Missing outcome animation: {animation_rule}"
 assert "${escapeText(e.detail)} - ${e.time}" in app
 
+service_worker = (ROOT / "service-worker.js").read_text(encoding="utf-8")
+for update_rule in ["self.skipWaiting()", "self.clients.claim()", "fetch(event.request)", ".catch(() => caches.match(event.request))"]:
+    assert update_rule in service_worker, f"Missing service-worker update rule: {update_rule}"
+
 print("Project structure, core scenarios, workflow and responsive rules verified.")

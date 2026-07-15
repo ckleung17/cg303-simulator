@@ -336,8 +336,11 @@ clearing an obsolete site cache if the application was recently updated.
 
 ### The offline version appears outdated
 
-Reconnect, open the online application, refresh it, then close and reopen the
-installed version. This allows the new service-worker cache to activate.
+Reconnect and reopen or refresh the application. From cache version 21, a new
+service worker activates immediately, claims the open application and prefers
+current network files while online. Cached files remain the offline fallback.
+For an installation older than version 21, close every open simulator tab or
+installed-app window once, reopen it and refresh to complete the transition.
 
 ### A reading cannot be taken
 

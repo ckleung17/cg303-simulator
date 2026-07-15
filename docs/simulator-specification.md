@@ -194,6 +194,11 @@ The application has no runtime backend, account system or external analytics.
 Attempt summaries are stored locally in the browser when local storage is
 available.
 
+The service worker pre-caches the application shell, calls `skipWaiting()` and
+`clients.claim()` during update activation, and uses network-first requests with
+the current cache as an offline fallback. This prevents an installed mobile app
+from remaining indefinitely on an older interface after deployment.
+
 ## 11. Verification requirements
 
 Every release must:
