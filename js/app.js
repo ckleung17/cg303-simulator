@@ -15,23 +15,29 @@ const correctionOptions = [
   "Reset the RCBO and return the installation to service",
   "Leave the circuit energised and advise the customer to monitor it"
 ];
-const state = { seed:"", fault:faults[0], mode:"guided", stage:"brief", safetyIndex:0, safetyErrors:0, observations:new Set(), leads:[], readings:[], evidence:[], diagnosis:null, reasoning:"", action:null };
+const state = { seed:"", fault:faults[0], mode:"guided", stage:"brief", safetyIndex:0, safetyErrors:0, observations:new Set(), leads:[], readings:[], evidence:[], diagnosis:[], reasoning:"", action:null };
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 function makeSeed(){ return Math.floor(Math.random()*0xffffff).toString(16).toUpperCase().padStart(6,"0"); }
-function seededIndex(seed){ return parseInt(seed,16)%faults.length; }
+function seededRandom(seed){ let value=parseInt(seed,16)>>>0; return ()=>{value=(value*1664525+1013904223)>>>0;return value/4294967296;}; }
+function shuffle(items,random){ const result=[...items]; for(let i=result.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[result[i],result[j]]=[result[j],result[i]];} return result; }
+function buildScenario(seed){
+  const random=seededRandom(seed), types=[...new Set(faults.map(f=>f.type))], type=types[Math.floor(random()*types.length)];
+  const compatible=shuffle(faults.filter(f=>f.type===type),random), maximum=Math.min(3,compatible.length), count=1+Math.floor(random()*maximum), active=compatible.slice(0,count), primary=active[0];
+  return {...primary,id:active.map(f=>f.id).join("+"),name:active.map(f=>f.name).join(" + "),complaint:active.map(f=>f.complaint).join(" Additional symptom: "),action:active.map(f=>f.action).join(" "),keyTests:active.flatMap(f=>f.keyTests),componentFaults:active,optionFaults:shuffle(faults.filter(f=>f.type===type),random),measure(test,a,b){const key=`${test}:${a}:${b}`,reverse=`${test}:${b}:${a}`,owner=active.find(f=>f.keyTests.includes(key)||f.keyTests.includes(reverse));return (owner||primary).measure(test,a,b);}};
+}
 
 function newScenario(seed=makeSeed()){
-  state.seed=seed; state.fault=faults[seededIndex(seed)]; state.stage="brief"; state.safetyIndex=0; state.safetyErrors=0;
-  state.observations.clear(); state.leads=[]; state.readings=[]; state.evidence=[]; state.diagnosis=null; state.reasoning=""; state.action=null;
+  state.seed=seed; state.fault=buildScenario(seed); state.stage="brief"; state.safetyIndex=0; state.safetyErrors=0;
+  state.observations.clear(); state.leads=[]; state.readings=[]; state.evidence=[]; state.diagnosis=[]; state.reasoning=""; state.action=null;
   $("#seed-display").textContent=seed; $("#complaint").textContent=`"${state.fault.complaint}"`;
   $("#circuit-chip").textContent=state.fault.circuit; $("#fact-supply").textContent=state.fault.supply;
   $("#fact-protection").textContent=state.fault.protection; $("#fact-conductors").textContent=state.fault.conductors; $("#fact-result").textContent=state.fault.lastResult;
   $$("[data-observation]").forEach(el=>{ if(el instanceof HTMLInputElement) el.checked=false; });
   renderSafety(); renderTerminals(); renderMeterOptions(); renderChoices(); renderReadings(); renderEvidence();
   $("#test-feedback").textContent=""; $("#diagnosis-feedback").textContent=""; $("#reasoning").value="";
-  showStage("brief"); logEvent("Scenario opened",`Seed ${seed}`);
+  showStage("brief"); logEvent("Scenario opened",`Seed ${seed} - ${state.fault.componentFaults.length} hidden fault${state.fault.componentFaults.length===1?"":"s"}`);
 }
 
 function showStage(name){
@@ -96,24 +102,25 @@ function renderReadings(){
 }
 
 function renderChoices(){
-  $("#diagnosis-options").innerHTML=faults.map(f=>`<label class="choice-card"><input type="radio" name="diagnosis" value="${f.id}"><span><strong>${f.name}</strong></span></label>`).join("");
+  $("#diagnosis-options").innerHTML=state.fault.optionFaults.map(f=>`<label class="choice-card"><input type="checkbox" name="diagnosis" value="${f.id}"><span><strong>${f.name}</strong></span></label>`).join("");
   $("#action-options").innerHTML=correctionOptions.map((a,i)=>`<label class="choice-card"><input type="radio" name="action" value="${i}"><span>${a}</span></label>`).join("");
 }
 
 function submitDiagnosis(){
-  const diagnosis=document.querySelector('input[name="diagnosis"]:checked'), action=document.querySelector('input[name="action"]:checked');
+  const diagnoses=[...document.querySelectorAll('input[name="diagnosis"]:checked')], action=document.querySelector('input[name="action"]:checked');
   state.reasoning=$("#reasoning").value.trim(); const feedback=$("#diagnosis-feedback");
-  if(!(diagnosis instanceof HTMLInputElement)||!(action instanceof HTMLInputElement)||state.reasoning.length<15){setFeedback(feedback,"Select a diagnosis and action, then explain your evidence in at least one sentence.",false);return;}
-  state.diagnosis=diagnosis.value; state.action=Number(action.value); const correct=state.diagnosis===state.fault.id;
+  if(!diagnoses.length||!(action instanceof HTMLInputElement)||state.reasoning.length<15){setFeedback(feedback,"Select every fault you diagnosed and an action, then explain your evidence in at least one sentence.",false);return;}
+  state.diagnosis=diagnoses.map(el=>el.value); state.action=Number(action.value); const expected=state.fault.componentFaults.map(f=>f.id); const correct=state.diagnosis.length===expected.length&&expected.every(id=>state.diagnosis.includes(id));
   setFeedback(feedback,correct?"Diagnosis recorded. Complete the report to review your performance.":"Diagnosis recorded. Review the evidence in your report.",correct);
-  logEvent("Diagnosis submitted",faults.find(f=>f.id===state.diagnosis)?.name||""); setTimeout(()=>finishAttempt(),350);
+  logEvent("Diagnosis submitted",state.diagnosis.map(id=>faults.find(f=>f.id===id)?.name).filter(Boolean).join(", ")); setTimeout(()=>finishAttempt(),350);
 }
 
 function finishAttempt(){
-  const correct=state.diagnosis===state.fault.id, useful=state.readings.some(r=>state.fault.keyTests.some(k=>{const [t,a,b]=k.split(":");return r.test===tests.find(x=>x.id===t)?.name&&((r.a===a&&r.b===b)||(r.a===b&&r.b===a));}));
+  const expected=state.fault.componentFaults.map(f=>f.id), correct=state.diagnosis.length===expected.length&&expected.every(id=>state.diagnosis.includes(id));
+  const evidenced=state.fault.componentFaults.filter(f=>f.keyTests.some(k=>{const [t,a,b]=k.split(":");return state.readings.some(r=>r.test===tests.find(x=>x.id===t)?.name&&((r.a===a&&r.b===b)||(r.a===b&&r.b===a)));})).length, useful=evidenced===state.fault.componentFaults.length;
   const safety=Math.max(0,25-state.safetyErrors*5), information=Math.min(15,state.observations.size*5), testing=Math.min(25,(useful?15:0)+Math.min(10,state.readings.length*2)), diagnosis=correct?20:0, correction=state.action===0?10:0, reasoning=state.reasoning.length>=40?5:2;
   const score=safety+information+testing+diagnosis+correction+reasoning; $("#score-ring").textContent=`${score}%`; $("#score-ring").style.setProperty("--score",`${score}%`);
-  $("#report-summary").innerHTML=`<div class="feedback ${correct?"good":"bad"}"><strong>${correct?"Correct diagnosis":"Diagnosis needs review"}</strong><p>The hidden fault was <strong>${escapeText(state.fault.name)}</strong>. ${escapeText(state.fault.action)}</p></div><p><strong>Your reasoning:</strong> ${escapeText(state.reasoning)}</p>`;
+  $("#report-summary").innerHTML=`<div class="feedback ${correct?"good":"bad"}"><strong>${correct?"Complete diagnosis":"Diagnosis needs review"}</strong><p>The ${state.fault.componentFaults.length===1?"hidden fault was":"hidden faults were"} <strong>${escapeText(state.fault.componentFaults.map(f=>f.name).join("; "))}</strong>. ${escapeText(state.fault.action)}</p></div><p><strong>Your reasoning:</strong> ${escapeText(state.reasoning)}</p><p><strong>Fault evidence found:</strong> ${evidenced} of ${state.fault.componentFaults.length}</p>`;
   const outcomes=[
     ["LO1","Health & safety",safety>=20,`${safety}/25`],["LO2","Communication",information>=10,`${information}/15`],["LO3","Fault characteristics",correct,`${diagnosis}/20`],["LO4","Diagnosis procedure",testing>=18,`${testing}/25`],["LO5","Correction",correction===10,`${correction}/10`],["LO6","Perform diagnosis",correct&&useful,correct&&useful?"Met":"Review"]
   ];
@@ -138,7 +145,8 @@ $("#instrument-select").addEventListener("change",syncTestOptions); $("#clear-le
 $("#meter-form").addEventListener("submit",e=>{e.preventDefault();takeReading();});
 $("#diagnosis-form").addEventListener("submit",e=>{e.preventDefault();submitDiagnosis();});
 
-newScenario();
+const requestedSeed=new URLSearchParams(location.search).get("seed");
+newScenario(requestedSeed&&/^[0-9a-f]{1,8}$/i.test(requestedSeed)?requestedSeed.toUpperCase():undefined);
 
 if ("serviceWorker" in navigator && location.protocol !== "file:") {
   window.addEventListener("load", () => navigator.serviceWorker.register("service-worker.js").catch(() => {}));

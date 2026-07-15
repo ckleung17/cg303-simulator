@@ -1,6 +1,6 @@
 # CG303 Fault Lab ? Operation Manual
 
-Manual version: 1.1
+Manual version: 1.2
 
 Applies to simulator baseline: commit `3f110c5`
 
@@ -41,14 +41,18 @@ connection. Browser-specific installation wording varies.
 
 ## 3. Selecting a learning mode
 
+The start page includes a five-block workflow diagram: **Brief**, **Safety**,
+**Test**, **Diagnose** and **Report**. Use it as an overview of the complete
+process; the numbered navigation immediately below opens each working stage.
+
 Use the Mode selector at the top of the page:
 
 - **Guided:** shows explanatory feedback after tests.
 - **Practice:** reduces guidance while retaining the final report.
 - **Exam-style:** minimises immediate teaching feedback.
 
-Changing mode does not change the hidden fault. Select **New fault** to generate
-a different seed and scenario.
+Changing mode does not change the hidden fault combination. Select **New fault**
+to generate a different seed and scenario.
 
 ## 4. Stage 1 ? Brief
 
@@ -61,6 +65,9 @@ a different seed and scenario.
 
 The scenario seed is displayed near the heading. Record it if you want to repeat
 or discuss the same exercise.
+
+A tutor may open a reproducible scenario directly by adding `?seed=ABC123` to
+the simulator URL, replacing `ABC123` with the displayed hexadecimal seed.
 
 ## 5. Stage 2 ? Safety
 
@@ -101,7 +108,8 @@ resistance path in that test context.
 ## 7. Stage 4 ? Diagnosis
 
 1. Compare the complaint with the recorded results.
-2. Select the most likely fault.
+2. Select every fault supported by the evidence. A scenario can contain one,
+   two or three compatible faults.
 3. Enter a sentence explaining which evidence supports the diagnosis.
 4. Select the safest appropriate corrective-action category.
 5. Select **Submit diagnosis**.
@@ -125,15 +133,38 @@ browser's local storage.
 ## 9. Circuit families
 
 Random generation draws from radial, ring-final, lighting, dedicated-load,
-contactor-control and three-phase motor scenarios. The diagram labels, supply,
-protection, terminals and likely measurements change with the selected family.
+contactor-control and three-phase motor scenarios. It activates one to three
+faults within the chosen family and shuffles their symptom order. The diagram
+labels, supply, protection, terminals and likely measurements change with the
+selected family and combination.
 
 Because the choice is seeded, several consecutive scenarios can occasionally
 come from the same family. Continue selecting **New fault** to broaden coverage.
+The same seed reproduces the same ordered combination, which is useful for tutor
+discussion and repeat attempts.
+
+### Diagnosing combined faults
+
+Do not stop automatically after finding the first abnormal result. Compare every
+reported symptom with the fault already identified. If one symptom remains
+unexplained, form another hypothesis and choose a test that discriminates it.
+Before submitting, ensure that:
+
+- Each selected diagnosis is supported by a recorded result or symptom.
+- Each significant symptom is explained by at least one selected fault.
+- Key evidence has been collected for every suspected fault.
+- Unrelated options have not been selected merely because multiple answers are
+  permitted.
+
+The final report states how many active faults had their key evidence found and
+only awards the complete diagnosis score when the selected set exactly matches
+the active set.
 
 ## 10. Worked example - diagnosing an open neutral
 
-This example demonstrates the reasoning expected in the simulator. It is not an
+This single-fault example demonstrates the reasoning expected in the simulator.
+The same evidence-led loop is repeated when a generated scenario contains
+additional symptoms. It is not an
 instruction to work on a real installation without appropriate training,
 authorisation, supervision and safe working procedures.
 

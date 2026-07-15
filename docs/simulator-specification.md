@@ -1,7 +1,8 @@
 # CG303 Fault Lab ? Simulator Specification
 
-Document version: 1.0  
-Simulator baseline: commit `4b0c063`  
+Document version: 1.1
+
+Simulator baseline: multi-fault combination release
 Last updated: 15 July 2026  
 Status: maintained project specification
 
@@ -58,13 +59,17 @@ The scenario generator currently covers:
 - Contactor, start/stop and auxiliary holding-control circuits.
 - Three-phase motor and distribution circuits.
 
-The initial catalogue contains 13 hidden faults, including conductor
+The catalogue contains 13 fault definitions, including conductor
 discontinuities, reversed polarity, low insulation resistance, a high-resistance
 termination, an open contactor coil, an open holding contact and phase loss.
 
+Each generated scenario activates between one and three compatible faults from
+one circuit family. The active-fault order is shuffled by the scenario seed, so
+fault count, symptoms, evidence sequence and required diagnosis are not fixed.
+
 ## 5. Scenario data contract
 
-Each fault scenario defines:
+Each fault definition provides:
 
 - Unique identifier and circuit family.
 - Circuit title, supply, protection, conductors and previous result.
@@ -74,11 +79,25 @@ Each fault scenario defines:
 - Measurement behaviour for the hidden fault.
 - Accepted diagnosis and recommended corrective action.
 
-A hexadecimal scenario seed selects a catalogue entry deterministically using
-the current catalogue order. Repeating the same seed in the same ruleset recreates
-the same fault.
+A hexadecimal scenario seed drives a deterministic pseudo-random generator. It
+selects a circuit family, shuffles that family's compatible fault definitions and
+activates one, two or three faults up to the available family maximum. Repeating
+the same seed in the same ruleset recreates the same ordered combination.
+
+The composite scenario merges customer symptoms, key tests, measurement
+overrides, accepted diagnoses and corrective actions. When a selected test is a
+key test for an active fault, that fault supplies the reading; otherwise the
+healthy baseline rule applies. Faults from different circuit families are never
+combined.
+
+The optional `?seed=` URL parameter accepts one to eight hexadecimal characters
+and provides a reproducible scenario deep link.
 
 ## 6. Diagnostic workflow
+
+The interface presents this sequence as a responsive five-block SVG diagram with
+a concise text alternative. It remains legible on desktop and stacks with its
+introductory text at tablet and phone widths.
 
 1. Review the customer complaint, circuit information and previous result.
 2. Record initial information-gathering actions.
@@ -86,7 +105,7 @@ the same fault.
 4. Select a suitable instrument and function.
 5. Select two labelled terminals and take a simulated reading.
 6. Record sufficient evidence to identify the fault.
-7. Select a diagnosis and recommended corrective-action category.
+7. Select every fault supported by the evidence and a corrective-action category.
 8. Explain the reasoning and review the curriculum-mapped report.
 
 Unsafe or out-of-sequence isolation actions are recorded and reduce the safety
@@ -113,7 +132,7 @@ The report allocates 100 marks:
 - Health and safety: 25.
 - Information gathering and communication: 15.
 - Test selection and evidence: 25.
-- Correct diagnosis: 20.
+- Complete diagnosis of the active fault set: 20.
 - Corrective-action category: 10.
 - Written reasoning: 5.
 
@@ -160,7 +179,8 @@ Every release must:
 
 - The electrical engine is a deterministic rule model, not a general-purpose
   network solver.
-- The catalogue represents common teaching cases rather than every valid fault.
+- Compatibility is currently enforced at circuit-family level; more detailed
+  masking and interaction constraints remain an area for expansion.
 - Simulated correction is selected and reported; components are not graphically
   dismantled or rewired.
 - Formal technical review metadata is still required for released scenario data.

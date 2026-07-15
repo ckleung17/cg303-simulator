@@ -43,6 +43,12 @@
       <div class="scenario-id"><span>Scenario seed</span><strong id="seed-display">?</strong></div>
     </section>
 
+    <section class="workflow-overview" aria-labelledby="workflow-heading">
+      <div class="workflow-copy"><p class="eyebrow">Diagnostic process</p><h2 id="workflow-heading">From symptoms to an evidence-led report</h2><p>Follow the stages in order. Combined-fault scenarios may require more than one hypothesis-test-diagnosis loop before reporting.</p></div>
+      <img src="assets/svg/diagrams/simulator-workflow.svg" alt="Workflow: review the brief, isolate safely, test the circuit, diagnose every fault, then review the report.">
+      <ol class="sr-only"><li>Review symptoms and documents and form hypotheses.</li><li>Complete safe isolation and prove dead.</li><li>Select instruments and collect test evidence.</li><li>Diagnose every supported fault and recommend action.</li><li>Review the report, repeat the seed or generate a new scenario.</li></ol>
+    </section>
+
     <nav class="stage-nav" aria-label="Diagnostic stages">
       <button class="stage-tab active" data-stage="brief" type="button"><span>1</span> Brief</button>
       <button class="stage-tab" data-stage="safety" type="button"><span>2</span> Safety</button>
@@ -101,7 +107,7 @@
 
         <div id="stage-diagnose" class="stage-view">
           <div class="section-heading"><div><p class="eyebrow">LO3 &amp; LO6</p><h2>Submit your diagnosis</h2></div></div>
-          <form id="diagnosis-form"><fieldset><legend>What is the most likely fault?</legend><div id="diagnosis-options" class="choice-grid"></div></fieldset>
+          <form id="diagnosis-form"><fieldset><legend>Select every fault supported by your evidence</legend><p>The scenario may contain one or more compatible faults.</p><div id="diagnosis-options" class="choice-grid"></div></fieldset>
           <label>Evidence and reasoning<textarea id="reasoning" rows="4" placeholder="Refer to symptoms and at least one test result..."></textarea></label>
           <fieldset><legend>Recommended action</legend><div id="action-options" class="choice-grid"></div></fieldset>
           <button class="button button-primary" type="submit">Submit diagnosis</button></form>
