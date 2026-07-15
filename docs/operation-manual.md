@@ -19,8 +19,8 @@ Never use a simulated reading as evidence about a real installation.
 
 ### Online
 
-Open `https://ckleung17.github.io/cg303-simulator/` in a current browser. No
-account is needed.
+Open the [CG303 Fault Lab online simulator](https://ckleung17.github.io/cg303-simulator/)
+in a current browser. No account is needed.
 
 ### Local copy
 

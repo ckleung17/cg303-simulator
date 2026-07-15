@@ -59,9 +59,16 @@ def styles():
 
 
 def inline(text):
+    links = []
+    def hold_link(match):
+        links.append((match.group(1), match.group(2)))
+        return f"@@MANUAL_LINK_{len(links)-1}@@"
+    text = re.sub(r"\[([^\]]+)\]\((https?://[^)]+)\)", hold_link, text)
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
     text = re.sub(r"`(.+?)`", r"<font name='Courier'>\1</font>", text)
+    for index, (label, url) in enumerate(links):
+        text = text.replace(f"@@MANUAL_LINK_{index}@@", f'<link href="{url}" color="#075EA8"><u>{label}</u></link>')
     return text
 
 
